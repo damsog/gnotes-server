@@ -10,11 +10,106 @@
  *                                             Dependencies
 *************************************************************************************************/
 // Configuration constants
-require('dotend').config()
+require('dotenv').config()
 
 // Basic Express dependencies
 const express = require('express');
-const fs = require('fs')
-const path = require('path')
+const fs = require('fs');
+const path = require('path');
+const cors = require('cors');
 
+// Logging dependencies
+const logger = require('./utils/logger');
+const customMorgan = require('./utils/customMorgan');
+const figlet = require('figlet');
+const colorText = require('./utils/colortext');
+const gradient = require('gradient-string');
 
+// Documentation Dependencies
+const swaggerJsDoc = require('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express');
+
+/************************************************************************************************
+ *                                           Configurations
+*************************************************************************************************/
+
+// Swagger Documentation confifguration
+const swaggerOptions = {
+    definition: {
+        openapi: "3.0.0",
+        info: {
+            title: 'Platform API',
+            version: "1.0.0",
+            description: 'Videoanalytics platform API'
+        },
+        servers: [
+            {
+                url: `http://localhost:${process.env.PORT}`
+           }
+        ],
+        components: {
+            securitySchemes: {
+                bearerAuth:{
+                    type: "http",
+                    scheme: "bearer",
+                    in: "header",
+                    bearerFormat: "JWT"
+                },
+            }
+        },
+        security: [ { bearerAuth: [] } ],
+    },
+    apis: ["./routes/*.js"],
+}
+
+// Figlet Configuration. To display a cool title for the Server.
+const figletParamsTitle = {
+    font: "Isometric2",
+    horizontalLayout: 'full',
+    verticalLayout: 'full',
+    width: 100,
+    whitespaceBreak: false
+}
+const figletParamsSubtitle = {
+    font: "Alligator2",
+    horizontalLayout: 'fitted',
+    verticalLayout: 'fitted',
+    width: 200,
+    whitespaceBreak: true
+}
+
+// Swagger Documentation initialization
+const swaggerDocs = swaggerJsDoc(swaggerOptions);
+
+// Setting the server
+const app = express();
+app.set('set', process.env.PORT || 4000);
+app.use('/api/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs) );
+
+// Muddlewares
+app.use(cors());
+app.use(customMorgan);
+app.use(express.urlencoded({ extended: false}));
+app.use(express.json({limit: '50mb'}));
+
+// Routes
+app.use('/api/users', require('./routes/usersRoutes'));
+
+// Fronend
+
+// Starting the server
+app.listen(app.get('port'), ()=>{
+    // Sick title
+    console.log(
+        gradient.retro(
+            figlet.textSync("Gnotes", figletParamsTitle)
+        )  
+    );
+    console.log(
+        gradient.retro(
+            figlet.textSync("NOTES SERVER", figletParamsSubtitle)
+        )
+    );
+    logger.info( colorText(`SERVER CONFIGURATION INFO: Server Running on: ${process.env.SERVER}`) );
+    logger.info( colorText(`SERVER CONFIGURATION INFO: Server Running on Port: ${process.env.PORT}`) );
+});
