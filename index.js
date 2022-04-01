@@ -83,7 +83,7 @@ const swaggerDocs = swaggerJsDoc(swaggerOptions);
 
 // Setting the server
 const app = express();
-app.set('set', process.env.PORT || 4000);
+app.set('port', process.env.PORT || 4000);
 app.use('/api/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs) );
 
 // Muddlewares
