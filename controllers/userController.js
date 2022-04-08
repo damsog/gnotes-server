@@ -11,16 +11,26 @@
 *************************************************************************************************/
 const usersService = require('../services/userService');
 const logger = require('../utils/logger');
+const colorText = require('../utils/colortext');
 
 exports.createUser = async (req, res) => {
-    try {
-        // Create a new user
-        logger.debug( colorText("Creating new user") );
+    // Create a new user
+    logger.debug( colorText(`Creating new user with options: ${req.body}`) );
 
-        const userCreated = {"userCreated":"some userCreated"};
+    options = {
+            first_name: req.body.first_name,
+            last_name: req.body.last_name,
+            email: req.body.email,
+            username: req.body.username,
+            password: req.body.password
+    };
+
+    try {
+
+        const result = await usersService.createUser( options );
         logger.info( colorText("User created"));
 
-        res.json(userCreated);
+        res.json(result);
     }catch(error) {
         res.status(500).send(`There was an error creating the user: ${error}`);
     }

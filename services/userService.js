@@ -1,10 +1,13 @@
-const user = require('../models/userModel');
+const User = require('../models/userModel');
+const logger = require('../utils/logger');
+const colorText = require('../utils/colortext');
 
 exports.createUser = async (options) => {
     const operation = "Create User";
+    logger.debug( colorText(`${operation} with options ${JSON.stringify(options)}`) );
 
     try{
-        const newUser = await user.create(options);
+        const newUser = await User.create(options);
 
         const result = {
             operation: operation,
@@ -12,7 +15,8 @@ exports.createUser = async (options) => {
             message: "User created successfully",
             data: newUser
         }
-
+        
+        logger.debug( colorText(`${operation} ${JSON.stringify(result)}`) );
         return result;
     }catch (error) {
         const result = {
@@ -22,6 +26,7 @@ exports.createUser = async (options) => {
             data: ""
         }
 
+        logger.debug( colorText(`${operation} ${JSON.stringify(result)}`) );
         return result;
     }
 }
