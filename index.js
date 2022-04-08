@@ -29,6 +29,9 @@ const gradient = require('gradient-string');
 const swaggerJsDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
 
+// Database | Just importing it triggers the connection
+const mongoose = require('./models/db');
+
 /************************************************************************************************
  *                                           Configurations
 *************************************************************************************************/
