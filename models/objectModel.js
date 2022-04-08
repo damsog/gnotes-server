@@ -19,4 +19,4 @@ const objectsSchema = new mongoose.Schema({
     list : mongoose.Schema.ObjectId
 })
 
-module.exports = mongoose.model('Objects', objectsSchema);
+module.exports = mongoose.model('Object', objectsSchema);
