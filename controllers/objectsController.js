@@ -39,6 +39,45 @@ exports.getAllObjects = async (req, res) => {
     }
 }
 
+exports.getAllObjectsByListId = async (req, res) => {
+    try{
+        // Get object from objects service
+        logger.debug( colorText("Getting all objects for a List") );
+
+        const objects = {"objects":"some objects"};
+
+        res.json(objects);
+    }catch(error){
+        res.status(500).send(`There was an error getting object information: ${error}`);
+    }
+}
+
+exports.getAllObjectsByListName = async (req, res) => {
+    try{
+        // Get object from objects service
+        logger.debug( colorText("Getting all objects for a List") );
+
+        const objects = {"objects":"some objects"};
+
+        res.json(objects);
+    }catch(error){
+        res.status(500).send(`There was an error getting object information: ${error}`);
+    }
+}
+
+exports.getAllObjectsByFilters = async (req, res) => {
+    try{
+        // Get object from objects service
+        logger.debug( colorText("Getting all objects for a List given filter options") );
+
+        const objects = {"objects":"some objects"};
+
+        res.json(objects);
+    }catch(error){
+        res.status(500).send(`There was an error getting object information: ${error}`);
+    }
+}
+
 exports.getObject = async (req, res) => {
     try{
         // Get object
