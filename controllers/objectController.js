@@ -9,7 +9,7 @@
 /************************************************************************************************
  *                                      Objects Controller
 *************************************************************************************************/
-const objectsService = require('../services/objectsService');
+const objectsService = require('../services/objectService');
 const logger = require('../utils/logger');
 
 exports.createObject = async (req, res) => {

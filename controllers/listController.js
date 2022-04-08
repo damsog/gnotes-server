@@ -9,7 +9,7 @@
 /************************************************************************************************
  *                                      Lists Controller
 *************************************************************************************************/
-const listsService = require('../services/listsService');
+const listsService = require('../services/listService');
 const logger = require('../utils/logger');
 
 exports.createList = async (req, res) => {

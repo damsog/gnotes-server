@@ -9,7 +9,7 @@
 /************************************************************************************************
  *                                      Users Controller
 *************************************************************************************************/
-const usersService = require('../services/usersService');
+const usersService = require('../services/userService');
 const logger = require('../utils/logger');
 
 exports.createUser = async (req, res) => {

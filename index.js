@@ -96,7 +96,7 @@ app.use(express.urlencoded({ extended: false}));
 app.use(express.json({limit: '50mb'}));
 
 // Routes
-app.use('/api/users', require('./routes/usersRoutes'));
+app.use('/api/users', require('./routes/userRoutes'));
 
 // Fronend
 
