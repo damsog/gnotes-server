@@ -39,6 +39,19 @@ exports.getAllLists = async (req, res) => {
     }
 }
 
+exports.getAllListsByUserId = async (req, res) => {
+    try{
+        // Get list from lists service
+        logger.debug( colorText("Getting all lists for a user") );
+
+        const lists = {"lists":"some lists"};
+
+        res.json(lists);
+    }catch(error){
+        res.status(500).send(`There was an error getting list information: ${error}`);
+    }
+}
+
 exports.getList = async (req, res) => {
     try{
         // Get list
