@@ -1,7 +1,22 @@
 const mongoose = require('mongoose');
 
-const objectsSchema = mongoose.Schema({
-
+const objectsSchema = new mongoose.Schema({
+    title : {
+        type : 'string',
+        required : true
+    },
+    description : String,
+    information : String,
+    created_at: {
+        type: Date,
+        immutable: true,
+        default: () => new Date()
+    },
+    updated_at: {
+        type: Date,
+        default: () => new Date()
+    },
+    list : mongoose.Schema.ObjectId
 })
 
-module.exports = mongoose.model('ListObjects', objectsSchema);
+module.exports = mongoose.model('Objects', objectsSchema);

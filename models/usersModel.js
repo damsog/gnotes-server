@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const { ObjectId } = require('mongodb');
 
 const userSchema = new mongoose.Schema({
     first_name: String,
@@ -16,7 +15,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    lists: [ObjectId],
+    lists: [mongoose.Schema.ObjectId],
     created_at: {
         type: Date,
         immutable: true,
@@ -28,4 +27,4 @@ const userSchema = new mongoose.Schema({
     }
 })
 
-module.exports = mongoose.model('User', userSchema)
+module.exports = mongoose.model('users', userSchema)
