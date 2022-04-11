@@ -1,12 +1,14 @@
 const User = require('../models/userModel');
 const logger = require('../utils/logger');
 const colorText = require('../utils/colortext');
+const encryptorService = require('./encryptorService');
 
 exports.createUser = async (options) => {
     const operation = "Create User";
     logger.debug( colorText(`${operation} with options ${JSON.stringify(options)}`) );
 
     try{
+        options.password = await encryptorService.encryptPassword(options.password);
         const newUser = await User.create(options);
 
         const result = {
