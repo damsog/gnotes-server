@@ -9,7 +9,7 @@
 /************************************************************************************************
  *                                      Users Controller
 *************************************************************************************************/
-const usersService = require('../services/userService');
+const userService = require('../services/userService');
 const logger = require('../utils/logger');
 const colorText = require('../utils/colortext');
 
@@ -27,7 +27,7 @@ exports.createUser = async (req, res) => {
 
     try {
 
-        const result = await usersService.createUser( options );
+        const result = await userService.createUser( options );
         logger.info( colorText("User created"));
 
         res.json(result);
@@ -124,7 +124,7 @@ exports.validateUser = async (req, res) => {
         // Deleting user
         logger.debug( colorText("Validating user information") );
 
-        const result = {"result":"some result"};
+        const result = await userService.validateUser(req.body.username, req.body.password);
         logger.info( colorText("Validation Result: "));
           
         res.json(result);
@@ -132,5 +132,4 @@ exports.validateUser = async (req, res) => {
         res.status(500).send(`There was an error validating user: ${error}`);
     }
 }
-
 
