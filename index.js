@@ -32,6 +32,9 @@ const swaggerUi = require('swagger-ui-express');
 // Database | Just importing it triggers the connection
 const mongoose = require('./models/db');
 
+//  Security 
+const authService = require('./services/authenticationService');
+
 /************************************************************************************************
  *                                           Configurations
 *************************************************************************************************/
@@ -96,7 +99,8 @@ app.use(express.urlencoded({ extended: false}));
 app.use(express.json({limit: '50mb'}));
 
 // Routes
-app.use('/api/users', require('./routes/userRoutes'));
+app.use('/api/access', require('./routes/accessRoutes'));
+app.use('/api/users', authService, require('./routes/userRoutes'));
 
 // Fronend
 
