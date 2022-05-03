@@ -89,3 +89,32 @@ exports.validateUser = async (username, password) => {
         return result;
     }
 }
+
+exports.getAllUsers = async () => {
+    const operation = "Query All Users";
+    logger.debug( colorText(`${operation}`) );
+
+    var result = {
+        operation: operation,
+        result: "failed",
+        message: "",
+        data: ""
+    }
+
+    try {
+        const users = await User.find({})
+
+        result.result = "success";
+        result.message = "List of users retrieved";
+        result.data = users
+
+        logger.debug( colorText(`${operation} ${JSON.stringify(result)}`) );
+        return result;
+    }catch (error) {
+        result.result = "failed";
+        result.message = error.message;
+
+        logger.debug( colorText(`${operation} ${JSON.stringify(result)}`) );
+        return result;
+    }
+}

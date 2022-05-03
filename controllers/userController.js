@@ -41,9 +41,10 @@ exports.getAllUsers = async (req, res) => {
         // Get user from users service
         logger.debug( colorText("Getting all users") );
 
-        const users = {"users":"some users"};
+        const result = await userService.getAllUsers();
+        logger.info( colorText("List of users retrieved"));
 
-        res.json(users);
+        res.json(result);
     }catch(error){
         res.status(500).send(`There was an error getting user information: ${error}`);
     }
