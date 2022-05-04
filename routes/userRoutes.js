@@ -106,7 +106,40 @@ router.get('/getUserByUsername/:username', usersController.getUserByUsername );
  *                                
  */
 router.get('/getUserByEmail/:email', usersController.getUserByEmail );
-router.put('/updateUser', usersController.updateUser );
+
+/**
+ * @swagger
+ * /api/users/updateUser/{id}:
+ *  put:
+ *      summary: Updates user
+ *      security:
+ *          - bearerAuth: []
+ *      tags: [Users]
+ *      parameters:
+ *          -   in: path
+ *              name: id
+ *              schema:
+ *                  type: string
+ *              required: true
+ *              description: user id
+ *      requestBody:
+ *          required: true
+ *          content: 
+ *              application/json:
+ *                  schema:
+ *                      $ref: '#/components/schemas/user'
+ *      responses:
+ *          200:
+ *              description: If operation was succesful
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/user'
+ *          404:
+ *              description: User not found
+ *                                
+ */
+router.put('/updateUser/:id', usersController.updateUser );
 router.delete('/deleteUser', usersController.deleteUser );
 
 /**
