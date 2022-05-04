@@ -118,3 +118,33 @@ exports.getAllUsers = async () => {
         return result;
     }
 }
+
+exports.getUserById = async (id) => {
+    const operation = `Query User by Id ${id}`;
+    logger.debug( colorText(`${operation}`) );
+
+    var result = {
+        operation: operation,
+        result: "failed",
+        message: "",
+        data: ""
+    }
+
+    try {
+        const user = await User.findById(id)
+
+        result.result = "success";
+        result.message = "User retrieved";
+        result.data = user
+
+        logger.debug( colorText(`${operation} ${JSON.stringify(result)}`) );
+        return result;
+    }catch (error) {
+        result.result = "failed";
+        result.message = error.message;
+
+        logger.debug( colorText(`${operation} ${JSON.stringify(result)}`) );
+        return result;
+    }
+}
+

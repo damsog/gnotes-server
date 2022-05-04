@@ -53,12 +53,12 @@ exports.getAllUsers = async (req, res) => {
 exports.getUserById = async (req, res) => {
     try{
         // Get user
-        logger.debug( colorText("Getting user by id") );
+        logger.debug( colorText(`Getting user by id ${req.params.id}`) );
 
-        const user = {"user":"some user"};
-        logger.info( colorText("User Found: "));
+        const result = await userService.getUserById(req.params.id);
+        logger.info( colorText(`User Found: ${result.data.id}`));
         
-        res.json(user);
+        res.json(result);
     }catch(error){
         res.status(500).send(`There was an error getting user information: ${error}`);
     }

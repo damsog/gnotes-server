@@ -4,7 +4,7 @@ const usersController = require('../controllers/userController');
 
 /**
  * @swagger
- * /api/users/getAllUsers:
+ * /api/users/getall:
  *  get:
  *      summary: Return all users
  *      security:
@@ -21,8 +21,35 @@ const usersController = require('../controllers/userController');
  *                              $ref: '#/components/schemas/user'
  *                                
  */
-router.get('/getAllUsers', usersController.getAllUsers );
-router.get('/getUserById', usersController.getUserById );
+router.get('/getall', usersController.getAllUsers );
+
+/**
+ * @swagger
+ * /api/users/getuser/{id}:
+ *  get:
+ *      summary: Return user by id
+ *      security:
+ *          - bearerAuth: []
+ *      tags: [Users]
+ *      parameters:
+ *          -   in: path
+ *              name: id
+ *              schema:
+ *                  type: string
+ *              required: true
+ *              description: user id
+ *      responses:
+ *          200:
+ *              description: list of all users
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/user'
+ *          404:
+ *              description: User not found
+ *                                
+ */
+router.get('/getuser/:id', usersController.getUserById );
 router.get('/getUserByUsername', usersController.getUserByUsername );
 router.get('/getUserByEmail', usersController.getUserByEmail );
 router.put('/updateUser', usersController.updateUser );
