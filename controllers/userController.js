@@ -67,12 +67,12 @@ exports.getUserById = async (req, res) => {
 exports.getUserByUsername = async (req, res) => {
     try{
         // Get user
-        logger.debug( colorText("Getting user by username") );
+        logger.debug( colorText(`Getting user by username ${req.params.username}`) );
+
+        const result = await userService.getUserByUsername(req.params.username);
+        logger.info( colorText(`User Found: ${result.data.username}`));
         
-        const user = {"user":"some user"};
-        logger.info( colorText("User Found: "));
-        
-        res.json(user);
+        res.json(result);
     }catch(error){
         res.status(500).send(`There was an error getting user information: ${error}`);
     }
@@ -81,12 +81,12 @@ exports.getUserByUsername = async (req, res) => {
 exports.getUserByEmail = async (req, res) => {
     try{
         // Get user
-        logger.debug( colorText("Getting user by email") );
+        logger.debug( colorText(`Getting user by Email ${req.params.email}`) );
 
-        const user = {"user":"some user"};
-        logger.info( colorText("User Found: "));
+        const result = await userService.getUserByEmail(req.params.email);
+        logger.info( colorText(`User Found: ${result.data.email}`));
         
-        res.json(user);
+        res.json(result);
     }catch(error){
         res.status(500).send(`There was an error getting user information: ${error}`);
     }

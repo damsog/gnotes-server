@@ -4,7 +4,7 @@ const usersController = require('../controllers/userController');
 
 /**
  * @swagger
- * /api/users/getall:
+ * /api/users/getAllUsers:
  *  get:
  *      summary: Return all users
  *      security:
@@ -21,11 +21,11 @@ const usersController = require('../controllers/userController');
  *                              $ref: '#/components/schemas/user'
  *                                
  */
-router.get('/getall', usersController.getAllUsers );
+router.get('/getAllUsers', usersController.getAllUsers );
 
 /**
  * @swagger
- * /api/users/getuser/{id}:
+ * /api/users/getUserById/{id}:
  *  get:
  *      summary: Return user by id
  *      security:
@@ -49,9 +49,63 @@ router.get('/getall', usersController.getAllUsers );
  *              description: User not found
  *                                
  */
-router.get('/getuser/:id', usersController.getUserById );
-router.get('/getUserByUsername', usersController.getUserByUsername );
-router.get('/getUserByEmail', usersController.getUserByEmail );
+router.get('/getUserById/:id', usersController.getUserById );
+
+/**
+ * @swagger
+ * /api/users/getUserByUsername/{username}:
+ *  get:
+ *      summary: Return user by username
+ *      security:
+ *          - bearerAuth: []
+ *      tags: [Users]
+ *      parameters:
+ *          -   in: path
+ *              name: username
+ *              schema:
+ *                  type: string
+ *              required: true
+ *              description: username
+ *      responses:
+ *          200:
+ *              description: list of all users
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/user'
+ *          404:
+ *              description: User not found
+ *                                
+ */
+router.get('/getUserByUsername/:username', usersController.getUserByUsername );
+
+/**
+ * @swagger
+ * /api/users/getUserByEmail/{email}:
+ *  get:
+ *      summary: Return user by email
+ *      security:
+ *          - bearerAuth: []
+ *      tags: [Users]
+ *      parameters:
+ *          -   in: path
+ *              name: email
+ *              schema:
+ *                  type: string
+ *              required: true
+ *              description: email
+ *      responses:
+ *          200:
+ *              description: list of all users
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/user'
+ *          404:
+ *              description: User not found
+ *                                
+ */
+router.get('/getUserByEmail/:email', usersController.getUserByEmail );
 router.put('/updateUser', usersController.updateUser );
 router.delete('/deleteUser', usersController.deleteUser );
 

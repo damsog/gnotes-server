@@ -148,3 +148,60 @@ exports.getUserById = async (id) => {
     }
 }
 
+exports.getUserByUsername = async (username) => {
+    const operation = `Query User by Username ${username}`;
+    logger.debug( colorText(`${operation}`) );
+
+    var result = {
+        operation: operation,
+        result: "failed",
+        message: "",
+        data: ""
+    }
+
+    try {
+        const user = await User.find({username:`${username}`})
+
+        result.result = "success";
+        result.message = "User retrieved";
+        result.data = user
+
+        logger.debug( colorText(`${operation} ${JSON.stringify(result)}`) );
+        return result;
+    }catch (error) {
+        result.result = "failed";
+        result.message = error.message;
+
+        logger.debug( colorText(`${operation} ${JSON.stringify(result)}`) );
+        return result;
+    }
+}
+
+exports.getUserByEmail = async (email) => {
+    const operation = `Query User by Email ${email}`;
+    logger.debug( colorText(`${operation}`) );
+
+    var result = {
+        operation: operation,
+        result: "failed",
+        message: "",
+        data: ""
+    }
+
+    try {
+        const user = await User.find({email:`${email}`})
+
+        result.result = "success";
+        result.message = "User retrieved";
+        result.data = user
+
+        logger.debug( colorText(`${operation} ${JSON.stringify(result)}`) );
+        return result;
+    }catch (error) {
+        result.result = "failed";
+        result.message = error.message;
+
+        logger.debug( colorText(`${operation} ${JSON.stringify(result)}`) );
+        return result;
+    }
+}
