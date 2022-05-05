@@ -140,7 +140,34 @@ router.get('/getUserByEmail/:email', usersController.getUserByEmail );
  *                                
  */
 router.put('/updateUser/:id', usersController.updateUser );
-router.delete('/deleteUser', usersController.deleteUser );
+
+/**
+ * @swagger
+ * /api/users/deleteUser/{id}:
+ *  delete:
+ *      summary: Deletes a user by id
+ *      security:
+ *          - bearerAuth: []
+ *      tags: [Users]
+ *      parameters:
+ *          -   in: path
+ *              name: id
+ *              schema:
+ *                  type: string
+ *              required: true
+ *              description: user id
+ *      responses:
+ *          200:
+ *              description: If operation was succesful
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: string
+ *          404:
+ *              description: User not found
+ *                                
+ */
+router.delete('/deleteUser/:id', usersController.deleteUser );
 
 /**
  * @swagger

@@ -241,3 +241,32 @@ exports.updateUser = async (options, id) => {
         return result;
     }
 }
+
+exports.deleteUser = async (id) => {
+    const operation = `Delete User by Id ${id}`;
+    logger.debug( colorText(`${operation}`) );
+
+    var result = {
+        operation: operation,
+        result: "failed",
+        message: "",
+        data: ""
+    }
+
+    try {
+        const user = await User.deleteOne({_id:`${id}`});
+
+        result.result = "success";
+        result.message = "User Deleted";
+        result.data = id
+
+        logger.debug( colorText(`${operation} ${JSON.stringify(result)}`) );
+        return result;
+    }catch (error) {
+        result.result = "failed";
+        result.message = error.message;
+
+        logger.debug( colorText(`${operation} ${JSON.stringify(result)}`) );
+        return result;
+    }
+}

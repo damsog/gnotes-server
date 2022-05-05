@@ -119,16 +119,16 @@ exports.updateUser = async (req, res) => {
 
 exports.deleteUser = async (req, res) => {
     try{
-      // Deleting user
-      logger.debug( colorText("Deleting user") );
+        // Get user
+        logger.debug( colorText(`Deleting user by id ${req.params.id}`) );
 
-      const result = {"result":"some result"}
-      logger.info( colorText("User Deleted: "));
+        const result = await userService.deleteUser(req.params.id);
+        logger.info( colorText(`${result}`));
         
-      res.json(result);
-  }catch(error){
-      res.status(500).send(`There was an error deleting user: ${error}`);
-  }
+        res.json(result);
+    }catch(error){
+        res.status(500).send(`There was an error getting user information: ${error}`);
+    }
 }
 
 exports.validateUser = async (req, res) => {
