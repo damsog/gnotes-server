@@ -10,12 +10,20 @@ exports.createUser = async (options) => {
 
     const result = {
         operation: operation,
-        result: "",
+        result: "failed",
         message: "",
         data: ""
     }
 
     try{
+        // Validates if username Exists
+        let user = await User.findOne({username: options.username});
+        if (user) {result.message = "Username already exists."; return result}
+
+        // Validates if email Exists
+        user = await User.findOne({email: options.email});
+        if (user) {result.message = "Email is already in use"; return result}
+
         options.password = await encryptorService.encryptPassword(options.password);
         const newUser = await User.create(options);
 
