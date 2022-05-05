@@ -93,11 +93,22 @@ exports.getUserByEmail = async (req, res) => {
 }
 
 exports.updateUser = async (req, res) => {
+    // Update a User
+    logger.debug( colorText(`Updating a user with options: ${req.body}`) );
+
+    options = {
+            first_name: req.body.first_name,
+            last_name: req.body.last_name,
+            email: req.body.email,
+            username: req.body.username,
+            password: req.body.password
+    };
+
     try{
       // Get user
       logger.debug( colorText("Update user information") );
 
-      const result = {"result":"some result"};
+      const result = await userService.updateUser(options,req.params.id);
       logger.info( colorText("User Updated: "));
         
       res.json(result);

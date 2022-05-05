@@ -205,3 +205,39 @@ exports.getUserByEmail = async (email) => {
         return result;
     }
 }
+
+exports.updateUser = async (options, id) => {
+    const operation = "Update User";
+    logger.debug( colorText(`${operation} with options ${JSON.stringify(options)} and user with id: ${id}`) );
+
+    const result = {
+        operation: operation,
+        result: "",
+        message: "",
+        data: ""
+    }
+
+    try{
+        // Getting user for Id
+        const user = await User.findById(id);
+        
+        for (const [key, value] of Object.entries(options)) {
+            if(value !== undefined) user[key] = value;
+        }
+
+        await user.save();
+
+        result.result = "success";
+        result.message = "User updated successfully";
+        result.data = user
+        
+        logger.debug( colorText(`${operation} ${JSON.stringify(result)}`) );
+        return result;
+    }catch (error) {
+        result.result = "failed";
+        result.message = error.message;
+
+        logger.debug( colorText(`${operation} ${JSON.stringify(result)}`) );
+        return result;
+    }
+}

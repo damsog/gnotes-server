@@ -127,7 +127,7 @@ router.get('/getUserByEmail/:email', usersController.getUserByEmail );
  *          content: 
  *              application/json:
  *                  schema:
- *                      $ref: '#/components/schemas/user'
+ *                      $ref: '#/components/schemas/userToUpdate'
  *      responses:
  *          200:
  *              description: If operation was succesful
@@ -181,4 +181,27 @@ router.delete('/deleteUser', usersController.deleteUser );
  *                  description: time
 */
 
+/**
+ * @swagger
+ * components:
+ *  schemas:
+ *      userToUpdate:
+ *          type: object
+ *          properties:
+ *              email:
+ *                  type: string
+ *                  description: Email set by user
+ *              username:
+ *                  type: string
+ *                  description: Username set by user
+ *              password:
+ *                  type: string
+ *                  description: key to access
+ *              first_name:
+ *                  type: string
+ *                  description: first name of the user
+ *              last_name:
+ *                  type: string
+ *                  description: last name of the user
+*/
 module.exports = router;
