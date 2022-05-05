@@ -110,6 +110,7 @@ exports.getAllUsers = async () => {
     }
 
     try {
+        // Getting all users
         const users = await User.find({})
 
         result.result = "success";
@@ -139,6 +140,7 @@ exports.getUserById = async (id) => {
     }
 
     try {
+        // Getting user by id
         const user = await User.findById(id)
 
         result.result = "success";
@@ -168,6 +170,7 @@ exports.getUserByUsername = async (username) => {
     }
 
     try {
+        // Getting user bu Username
         const user = await User.find({username:`${username}`})
 
         result.result = "success";
@@ -197,6 +200,7 @@ exports.getUserByEmail = async (email) => {
     }
 
     try {
+        // Getting user by email
         const user = await User.find({email:`${email}`})
 
         result.result = "success";
@@ -229,6 +233,7 @@ exports.updateUser = async (options, id) => {
         // Getting user for Id
         const user = await User.findById(id);
         
+        // Validates which options were provided
         for (const [key, value] of Object.entries(options)) {
             if(value !== undefined) user[key] = value;
         }
@@ -262,7 +267,12 @@ exports.deleteUser = async (id) => {
     }
 
     try {
-        const user = await User.deleteOne({_id:`${id}`});
+        // Validates if user Exists
+        user = await User.findById(id);
+        if (!user) {result.message = "User doesn't exist"; return result}
+
+        // Else continues with deletion
+        await User.deleteOne({_id:`${id}`});
 
         result.result = "success";
         result.message = "User Deleted";
