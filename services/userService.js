@@ -20,6 +20,14 @@ exports.createUser = async (options) => {
     var result = resultStructure(operation);
 
     try{
+        // Validates if username Exists
+        let user = await User.findOne({username: options.username});
+        if (user) {result.message = "Username already exists."; return result}
+
+        // Validates if email Exists
+        user = await User.findOne({email: options.email});
+        if (user) {result.message = "Email is already in use"; return result}
+
         options.password = await encryptorService.encryptPassword(options.password);
         const newUser = await User.create(options);
 
@@ -96,6 +104,7 @@ exports.getAllUsers = async () => {
     var result = resultStructure(operation);
 
     try {
+        // Getting all users
         const users = await User.find({})
 
         result.result = "success";
@@ -120,6 +129,7 @@ exports.getUserById = async (id) => {
     var result = resultStructure(operation);
 
     try {
+        // Getting user by id
         const user = await User.findById(id)
 
         result.result = "success";
@@ -144,6 +154,7 @@ exports.getUserByUsername = async (username) => {
     var result = resultStructure(operation);
 
     try {
+        // Getting user bu Username
         const user = await User.find({username:`${username}`})
 
         result.result = "success";
@@ -168,6 +179,7 @@ exports.getUserByEmail = async (email) => {
     var result = resultStructure(operation);
 
     try {
+        // Getting user by email
         const user = await User.find({email:`${email}`})
 
         result.result = "success";
@@ -195,6 +207,7 @@ exports.updateUser = async (options, id) => {
         // Getting user for Id
         const user = await User.findById(id);
         
+        // Validates which options were provided
         for (const [key, value] of Object.entries(options)) {
             if(value !== undefined) user[key] = value;
         }
@@ -205,6 +218,40 @@ exports.updateUser = async (options, id) => {
         result.message = "User updated successfully";
         result.data = user
         
+        logger.debug( colorText(`${operation} ${JSON.stringify(result)}`) );
+        return result;
+    }catch (error) {
+        result.result = "failed";
+        result.message = error.message;
+
+        logger.debug( colorText(`${operation} ${JSON.stringify(result)}`) );
+        return result;
+    }
+}
+
+exports.deleteUser = async (id) => {
+    const operation = `Delete User by Id ${id}`;
+    logger.debug( colorText(`${operation}`) );
+
+    var result = {
+        operation: operation,
+        result: "failed",
+        message: "",
+        data: ""
+    }
+
+    try {
+        // Validates if user Exists
+        user = await User.findById(id);
+        if (!user) {result.message = "User doesn't exist"; return result}
+
+        // Else continues with deletion
+        await User.deleteOne({_id:`${id}`});
+
+        result.result = "success";
+        result.message = "User Deleted";
+        result.data = id
+
         logger.debug( colorText(`${operation} ${JSON.stringify(result)}`) );
         return result;
     }catch (error) {
