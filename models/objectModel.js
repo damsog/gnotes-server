@@ -7,6 +7,7 @@ const objectsSchema = new mongoose.Schema({
     },
     description : String,
     information : String,
+    filters: {},
     created_at: {
         type: Date,
         immutable: true,
