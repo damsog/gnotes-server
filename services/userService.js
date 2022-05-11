@@ -4,16 +4,20 @@ const logger = require('../utils/logger');
 const colorText = require('../utils/colortext');
 const encryptorService = require('./encryptorService');
 
+resultStructure = (operation) => { 
+    return result = {
+        operation: operation,
+        result: "failed",
+        message: "",
+        data: ""
+    }
+}
+
 exports.createUser = async (options) => {
     const operation = "Create User";
     logger.debug( colorText(`${operation} with options ${JSON.stringify(options)}`) );
 
-    const result = {
-        operation: operation,
-        result: "",
-        message: "",
-        data: ""
-    }
+    var result = resultStructure(operation);
 
     try{
         options.password = await encryptorService.encryptPassword(options.password);
@@ -38,12 +42,7 @@ exports.validateUser = async (username, password) => {
     const operation = "Login User";
     logger.debug( colorText(`${operation}`) );
 
-    var result = {
-        operation: operation,
-        result: "failed",
-        message: "",
-        data: ""
-    }
+    var result = resultStructure(operation);
 
     try{
         if(!username || !password) { result.messsage = "Username and password must be provided"; return result };
@@ -94,12 +93,7 @@ exports.getAllUsers = async () => {
     const operation = "Query All Users";
     logger.debug( colorText(`${operation}`) );
 
-    var result = {
-        operation: operation,
-        result: "failed",
-        message: "",
-        data: ""
-    }
+    var result = resultStructure(operation);
 
     try {
         const users = await User.find({})
@@ -123,12 +117,7 @@ exports.getUserById = async (id) => {
     const operation = `Query User by Id ${id}`;
     logger.debug( colorText(`${operation}`) );
 
-    var result = {
-        operation: operation,
-        result: "failed",
-        message: "",
-        data: ""
-    }
+    var result = resultStructure(operation);
 
     try {
         const user = await User.findById(id)
@@ -152,12 +141,7 @@ exports.getUserByUsername = async (username) => {
     const operation = `Query User by Username ${username}`;
     logger.debug( colorText(`${operation}`) );
 
-    var result = {
-        operation: operation,
-        result: "failed",
-        message: "",
-        data: ""
-    }
+    var result = resultStructure(operation);
 
     try {
         const user = await User.find({username:`${username}`})
@@ -181,12 +165,7 @@ exports.getUserByEmail = async (email) => {
     const operation = `Query User by Email ${email}`;
     logger.debug( colorText(`${operation}`) );
 
-    var result = {
-        operation: operation,
-        result: "failed",
-        message: "",
-        data: ""
-    }
+    var result = resultStructure(operation);
 
     try {
         const user = await User.find({email:`${email}`})
@@ -210,12 +189,7 @@ exports.updateUser = async (options, id) => {
     const operation = "Update User";
     logger.debug( colorText(`${operation} with options ${JSON.stringify(options)} and user with id: ${id}`) );
 
-    const result = {
-        operation: operation,
-        result: "",
-        message: "",
-        data: ""
-    }
+    var result = resultStructure(operation);
 
     try{
         // Getting user for Id
