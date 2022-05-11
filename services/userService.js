@@ -233,12 +233,7 @@ exports.deleteUser = async (id) => {
     const operation = `Delete User by Id ${id}`;
     logger.debug( colorText(`${operation}`) );
 
-    var result = {
-        operation: operation,
-        result: "failed",
-        message: "",
-        data: ""
-    }
+    var result = resultStructure(operation);
 
     try {
         // Validates if user Exists
