@@ -11,6 +11,22 @@ resultStructure = (operation) => {
     }
 }
 
+exports.getList = async (id) => {
+    const operation = `Query List ${id}`;
+    logger.debug( colorText(`${operation}`) );
+    
+    var result = resultStructure(operation);
+
+    try {
+        return result;
+    }catch(e) {
+        result.result = "failed";
+        result.message = error.message;
+
+        logger.debug( colorText(`${operation} ${JSON.stringify(result)}`) );
+    }
+}
+
 exports.getAllLists = async () => {
     const operation = "Query All Lists";
     logger.debug( colorText(`${operation}`) );
