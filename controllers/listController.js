@@ -39,7 +39,7 @@ exports.getAllLists = async (req, res) => {
     }
 }
 
-exports.getAllListsByUserId = async (req, res) => {
+exports.getAllByUserId = async (req, res) => {
     try{
         // Get list from lists service
         logger.debug( colorText("Getting all lists for a user") );
