@@ -2,6 +2,7 @@ const List = require('../models/listModel');
 const User = require('../models/userModel');
 const logger = require('../utils/logger');
 const colorText = require('../utils/colortext');
+const { ObjectId } = require('mongoose').Types;
 
 resultStructure = (operation) => { 
     return result = {
@@ -75,9 +76,25 @@ exports.createList = async (options, userId) => {
     var result = resultStructure(operation);
 
     try {
-        // Validates if for user exists
+        // Validates if the list for user exists
+        logger.debug( colorText(`Looking for list: ${options.name} for user ${userId}`) );
+        const query = await User.aggregate([
+            { $match:{"_id": ObjectId(userId) } },
+            { $lookup: { 
+                from: "lists", 
+                localField: "lists", 
+                foreignField: "_id", 
+                as: "lists",
+                pipeline: [{ 
+                    $match:{"name":options.name} 
+                }]  
+            } }, 
+            { $project:{"lists":1} } 
+        ]);
+        logger.debug( colorText(`${operation} ${JSON.stringify(query[0].lists)}`) );
+        if(query[0].lists.length > 0) { result.messsage = `The user already has a list named ${options.name}`; return result };
 
-        // Creating the list
+        // If the list is new creates the list
         const newList = await List.create(options);
 
         // Updating the user which owns the list
@@ -87,7 +104,7 @@ exports.createList = async (options, userId) => {
 
         result.result = "success";
         result.message = "List created successfully";
-        result.data = {newList : newList, user : user};
+        result.data = {newList : newList, userId : userId};
         
         logger.debug( colorText(`${operation} ${JSON.stringify(result)}`) );
         return result;
