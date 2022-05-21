@@ -202,15 +202,12 @@ router.delete('/deleteList/:id', listController.deleteList);
   *          required:
   *              - name
   *          properties:
-  *              username:
+  *              name:
   *                  type: string
   *                  description: List name
   *              description:
   *                  type: string
   *                  description: List Description
-  *              id:
-  *                  type: int
-  *                  description: The id of the User
  */
 
   /**

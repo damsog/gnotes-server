@@ -14,11 +14,19 @@ const logger = require('../utils/logger');
 const colorText = require('../utils/colortext');
 
 exports.createList = async (req, res) => {
+        // Create a new user
+    logger.debug( colorText(`Creating new user with options: ${req.body}`) );
+    
+    options = {
+        name : req.body.name,
+        description : req.body.description
+    };
+
     try {
         // Create a new list
         logger.debug( colorText("Creating new list") );
 
-        const listCreated = {"listCreated":"some listCreated"};
+        const listCreated = await listsService.createList(options, req.user.user_id);
         logger.info( colorText("List created"));
 
         res.json(listCreated);
