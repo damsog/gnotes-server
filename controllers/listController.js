@@ -105,7 +105,7 @@ exports.updateList = async (req, res) => {
       logger.debug( colorText("Update list information") );
 
       const result = await listsService.updateList(options, req.params.id);
-      logger.info( colorText("List Updated: "));
+      logger.info( colorText(`List Updated: ${req.params.id}`));
         
       res.json(result);
   }catch(error){
@@ -118,8 +118,8 @@ exports.deleteList = async (req, res) => {
       // Deleting list
       logger.debug( colorText("Deleting list") );
 
-      const result = {"result":"some result"}
-      logger.info( colorText("List Deleted: "));
+      const result = await listsService.deleteList(req.params.id);
+      logger.info( colorText(`List Deleted: ${req.params.id}`));
         
       res.json(result);
   }catch(error){

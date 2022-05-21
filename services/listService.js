@@ -220,6 +220,18 @@ exports.deleteList = async (id) => {
     var result = resultStructure(operation);
 
     try {
+        // Validates if list Exists
+        const list = await List.findById(id);
+        if (!list) {result.message = "List doesn't exist"; return result}
+
+        // Else continues with deletion
+        await List.deleteOne({_id:`${id}`});
+
+        result.result = "success";
+        result.message = "List Deleted";
+        result.data = id
+
+        logger.debug( colorText(`${operation} ${JSON.stringify(result)}`) );
         return result;
     }catch(error) {
         result.result = "failed";
