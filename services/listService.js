@@ -107,6 +107,25 @@ exports.getAllByUserId = async (id) => {
     var result = resultStructure(operation);
 
     try {
+        // Queries for the named list
+        const query = await User.aggregate([
+            { $match:{"_id": ObjectId(id) } },
+            { $lookup: { 
+                from: "lists", 
+                localField: "lists", 
+                foreignField: "_id", 
+                as: "lists"
+            } }, 
+            { $project:{"lists":1} } 
+        ]);
+        logger.debug( colorText(`${operation} ${JSON.stringify(query[0].lists)}`) );
+
+        const lists = query[0].lists;
+        result.result = "success";
+        result.message = "User lists retrieved";
+        result.data = lists
+
+        logger.debug( colorText(`${operation} ${JSON.stringify(result)}`) );
         return result;
     }catch(error) {
         result.result = "failed";

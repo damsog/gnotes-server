@@ -54,7 +54,8 @@ exports.getAllByUserId = async (req, res) => {
         // Get list from lists service
         logger.debug( colorText("Getting all lists for a user") );
 
-        const lists = {"lists":"some lists"};
+        const lists = await listsService.getAllByUserId(req.params.id);
+        logger.info( colorText("Lists retrieved"));
 
         res.json(lists);
     }catch(error){
