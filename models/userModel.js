@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const List = require('../models/listModel');
+
 
 const UserSchema = new mongoose.Schema({
     first_name: String,
@@ -15,7 +17,7 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    lists: [mongoose.Schema.ObjectId],
+    lists: [{ type: mongoose.Schema.Types.ObjectId, ref: 'List' }],
     created_at: {
         type: Date,
         immutable: true,
