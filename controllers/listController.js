@@ -67,8 +67,22 @@ exports.getList = async (req, res) => {
         // Get list
         logger.debug( colorText("Getting list by id") );
 
-        const list = {"list":"some list"};
-        logger.info( colorText("List Found: "));
+        const list = await listsService.getList(req.params.id);
+        logger.info( colorText(`List Found: ${JSON.stringify(list)}`));
+        
+        res.json(list);
+    }catch(error){
+        res.status(500).send(`There was an error getting list information: ${error}`);
+    }
+}
+
+exports.getListByName = async (req, res) => {
+    try{
+        // Get list
+        logger.debug( colorText("Getting list by Name") );
+
+        const list = await listsService.getListByName(req.params.name, req.user.user_id);
+        logger.info( colorText(`List Found: ${JSON.stringify(list)}`));
         
         res.json(list);
     }catch(error){

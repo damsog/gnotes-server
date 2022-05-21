@@ -20,6 +20,14 @@ exports.getList = async (id) => {
     var result = resultStructure(operation);
 
     try {
+        // Queries for the list
+        const list = await List.findById(id);
+
+        result.result = "success";
+        result.message = "List retrieved";
+        result.data = list
+
+        logger.debug( colorText(`${operation} ${JSON.stringify(result)}`) );
         return result;
     }catch(error) {
         result.result = "failed";
