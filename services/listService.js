@@ -19,7 +19,7 @@ exports.getList = async (id) => {
 
     try {
         return result;
-    }catch(e) {
+    }catch(error) {
         result.result = "failed";
         result.message = error.message;
 
@@ -34,8 +34,16 @@ exports.getAllLists = async () => {
     var result = resultStructure(operation);
 
     try {
+        // Getting all users
+        const lists = await List.find({});
+
+        result.result = "success";
+        result.message = "List of users retrieved";
+        result.data = lists
+
+        logger.debug( colorText(`${operation} ${JSON.stringify(result)}`) );
         return result;
-    }catch(e) {
+    }catch(error) {
         result.result = "failed";
         result.message = error.message;
 
@@ -51,7 +59,7 @@ exports.getAllByUserId = async (id) => {
 
     try {
         return result;
-    }catch(e) {
+    }catch(error) {
         result.result = "failed";
         result.message = error.message;
 
@@ -67,7 +75,7 @@ exports.createList = async () => {
 
     try {
         return result;
-    }catch(e) {
+    }catch(error) {
         result.result = "failed";
         result.message = error.message;
 
@@ -83,7 +91,7 @@ exports.updateList = async (id) => {
 
     try {
         return result;
-    }catch(e) {
+    }catch(error) {
         result.result = "failed";
         result.message = error.message;
 
@@ -99,7 +107,7 @@ exports.deleteList = async (id) => {
 
     try {
         return result;
-    }catch(e) {
+    }catch(error) {
         result.result = "failed";
         result.message = error.message;
 

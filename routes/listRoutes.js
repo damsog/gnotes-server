@@ -46,7 +46,7 @@ router.post('/create', listController.createList);
  *                              $ref: '#/components/schemas/list'
  *                                
  */
-router.get('/getAllLists', listController.createList);
+router.get('/getAllLists', listController.getAllLists);
 
 /**
  * @swagger

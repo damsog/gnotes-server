@@ -11,6 +11,7 @@
 *************************************************************************************************/
 const listsService = require('../services/listService');
 const logger = require('../utils/logger');
+const colorText = require('../utils/colortext');
 
 exports.createList = async (req, res) => {
     try {
@@ -31,7 +32,8 @@ exports.getAllLists = async (req, res) => {
         // Get list from lists service
         logger.debug( colorText("Getting all lists") );
 
-        const lists = {"lists":"some lists"};
+        const lists = await listsService.getAllLists();
+        logger.info( colorText("Lists retrieved"));
 
         res.json(lists);
     }catch(error){
