@@ -37,6 +37,45 @@ exports.getList = async (id) => {
     }
 }
 
+exports.getListByName = async (name, userId) => {
+    const operation = `Query List ${name} for user ${userId}`;
+    logger.debug( colorText(`${operation}`) );
+    
+    var result = resultStructure(operation);
+
+    try {
+        // Queries for the named list
+        const query = await User.aggregate([
+            { $match:{"_id": ObjectId(userId) } },
+            { $lookup: { 
+                from: "lists", 
+                localField: "lists", 
+                foreignField: "_id", 
+                as: "lists",
+                pipeline: [{ 
+                    $match:{"name":name} 
+                }]  
+            } }, 
+            { $project:{"lists":1} } 
+        ]);
+        logger.debug( colorText(`${operation} ${JSON.stringify(query[0].lists)}`) );
+        if(query[0].lists.length < 1) { result.messsage = `No list named ${name} found for user`; return result };
+
+        const list = query[0].lists[0]
+        result.result = "success";
+        result.message = "List retrieved";
+        result.data = list
+
+        logger.debug( colorText(`${operation} ${JSON.stringify(result)}`) );
+        return result;
+    }catch(error) {
+        result.result = "failed";
+        result.message = error.message;
+
+        logger.debug( colorText(`${operation} ${JSON.stringify(result)}`) );
+    }
+}
+
 exports.getAllLists = async () => {
     const operation = "Query All Lists";
     logger.debug( colorText(`${operation}`) );

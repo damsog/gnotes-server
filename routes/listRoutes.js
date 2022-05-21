@@ -107,6 +107,34 @@ router.get('/getList/:id', listController.getList);
 
 /**
  * @swagger
+ * /api/lists/getListByName/{name}:
+ *  get:
+ *      summary: Return List by Name
+ *      security:
+ *          - bearerAuth: []
+ *      tags: [Lists]
+ *      parameters:
+ *          -   in: path
+ *              name: name
+ *              schema:
+ *                  type: string
+ *              required: true
+ *              description: List Name
+ *      responses:
+ *          200:
+ *              description: list with name
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/list'
+ *          404:
+ *              description: List not found
+ *                                
+ */
+ router.get('/getListByName/:name', listController.getListByName);
+
+/**
+ * @swagger
  * /api/lists/updateList/{id}:
  *  put:
  *      summary: Updates list
