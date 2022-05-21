@@ -182,13 +182,28 @@ exports.createList = async (options, userId) => {
     }
 }
 
-exports.updateList = async (id) => {
+exports.updateList = async (options, id) => {
     const operation = `Update List ${id}`;
     logger.debug( colorText(`${operation}`) );
     
     var result = resultStructure(operation);
 
     try {
+        // Getting user for Id
+        const list = await List.findById(id);
+
+        // Validates which options were provided
+        for (const [key, value] of Object.entries(options)) {
+            if(value !== undefined) list[key] = value;
+        }
+
+        await list.save();
+
+        result.result = "success";
+        result.message = "List updated";
+        result.data = list
+
+        logger.debug( colorText(`${operation} ${JSON.stringify(result)}`) );
         return result;
     }catch(error) {
         result.result = "failed";

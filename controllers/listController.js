@@ -92,11 +92,19 @@ exports.getListByName = async (req, res) => {
 }
 
 exports.updateList = async (req, res) => {
+    // Update a List
+    logger.debug( colorText(`Updating a List with options: ${req.body}`) );
+
+    options = {
+            name: req.body.name,
+            description: req.body.description
+    };
+
     try{
       // Get list
       logger.debug( colorText("Update list information") );
 
-      const result = {"result":"some result"};
+      const result = await listsService.updateList(options, req.params.id);
       logger.info( colorText("List Updated: "));
         
       res.json(result);
