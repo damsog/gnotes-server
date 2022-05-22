@@ -106,6 +106,20 @@ exports.updateObject = async (req, res) => {
   }
 }
 
+exports.updateObjectFilters = async (req, res) => {
+    try{
+      // Get object
+      logger.debug( colorText("Update object filters information") );
+
+      const result = {"result":"some result"};
+      logger.info( colorText("Object Updated: "));
+        
+      res.json(result);
+  }catch(error){
+      res.status(500).send(`There was an error updating object information: ${error}`);
+  }
+}
+
 exports.deleteObject = async (req, res) => {
     try{
       // Deleting object
