@@ -18,7 +18,7 @@ const objectsSchema = new mongoose.Schema({
         type: Date,
         default: () => new Date()
     },
-    list : mongoose.Schema.ObjectId
+    list : mongoose.Schema.Types.ObjectId
 })
 
 module.exports = mongoose.model('Object', objectsSchema);
