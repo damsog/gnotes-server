@@ -129,6 +129,8 @@ exports.getAllByListName = async (name, userId) => {
             } }, 
             { $project:{"lists":1} } 
         ]);
+
+        // If list exists for the user, queiry all its objects
         if(query[0].lists.length < 1) { result.messsage = `The user doesn't have a list named ${name}`; return result };
         logger.debug( colorText(`Named list found ${JSON.stringify(query[0].lists[0])}`) );
         
