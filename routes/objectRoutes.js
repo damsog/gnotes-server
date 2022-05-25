@@ -273,9 +273,6 @@ router.delete('/deleteObject/:id' , objectController.deleteObject );
   *          required:
   *              - name
   *          properties:
-  *              id:
-  *                  type: int
-  *                  description: The auto-generated id of the user
   *              title:
   *                  type: string
   *                  description: List name
@@ -320,7 +317,7 @@ router.delete('/deleteObject/:id' , objectController.deleteObject );
   *                  type: object
   *                  items:
   *                      type: string
-  *              attachment:
+  *              attachments:
   *                  type: object
   *                  items:
   *                      type: string

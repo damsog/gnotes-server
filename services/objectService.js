@@ -18,6 +18,20 @@ exports.createObject = async (options) => {
     var result = resultStructure(operation);
 
     try {
+        // Checking if the object exists for the list
+        const query = await Object.aggregate([
+            { $lookup: { 
+                from: "lists", 
+                localField: "lists", 
+                foreignField: "_id", 
+                as: "lists",
+                pipeline: [{ 
+                    $match:{"_id":options.listId} 
+                }]  
+            } }, 
+            { $match:{"lists._id": options.listsId } }
+        ]);
+
         // Create a new object
         logger.debug( colorText("Creating new object") );
 

@@ -14,11 +14,23 @@ const logger = require('../utils/logger');
 const colorText = require('../utils/colortext');
 
 exports.createObject = async (req, res) => {
+    // Create a new user
+    logger.debug( colorText(`Creating new object with options: ${JSON.stringify(req.body)}`) );
+
+    options = {
+            title: req.body.title,
+            description: req.body.description,
+            information: req.body.information,
+            filters: req.body.filters,
+            attachments: req.body.attachments,
+            listId: req.body.listId
+    };
+
     try {
         // Create a new object
         logger.debug( colorText("Creating new object") );
 
-        const objectCreated = {"objectCreated":"some objectCreated"};
+        const objectCreated = objectsService.createObject(options);
         logger.info( colorText("Object created"));
 
         res.json(objectCreated);
