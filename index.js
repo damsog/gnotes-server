@@ -102,6 +102,7 @@ app.use(express.json({limit: '50mb'}));
 app.use('/api/access', require('./routes/accessRoutes'));
 app.use('/api/users', authService, require('./routes/userRoutes'));
 app.use('/api/lists', authService, require('./routes/listRoutes'));
+app.use('/api/objects', authService, require('./routes/objectRoutes'));
 
 // Fronend
 

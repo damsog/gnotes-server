@@ -11,6 +11,7 @@
 *************************************************************************************************/
 const objectsService = require('../services/objectService');
 const logger = require('../utils/logger');
+const colorText = require('../utils/colortext');
 
 exports.createObject = async (req, res) => {
     try {
@@ -39,7 +40,7 @@ exports.getAllObjects = async (req, res) => {
     }
 }
 
-exports.getAllObjectsByListId = async (req, res) => {
+exports.getAllByListId = async (req, res) => {
     try{
         // Get object from objects service
         logger.debug( colorText("Getting all objects for a List") );
@@ -52,7 +53,7 @@ exports.getAllObjectsByListId = async (req, res) => {
     }
 }
 
-exports.getAllObjectsByListName = async (req, res) => {
+exports.getAllByListName = async (req, res) => {
     try{
         // Get object from objects service
         logger.debug( colorText("Getting all objects for a List") );
@@ -65,7 +66,7 @@ exports.getAllObjectsByListName = async (req, res) => {
     }
 }
 
-exports.getAllObjectsByFilters = async (req, res) => {
+exports.getAllByFilters = async (req, res) => {
     try{
         // Get object from objects service
         logger.debug( colorText("Getting all objects for a List given filter options") );

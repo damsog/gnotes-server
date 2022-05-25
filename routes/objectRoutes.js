@@ -4,7 +4,7 @@ const objectController = require('../controllers/objectController');
 
 /**
  * @swagger
- * /api/object/create:
+ * /api/objects/create:
  *  post:
  *      summary: Create a new Object
  *      tags: [Objects]
