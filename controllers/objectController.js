@@ -44,7 +44,8 @@ exports.getAllObjects = async (req, res) => {
         // Get object from objects service
         logger.debug( colorText("Getting all objects") );
 
-        const objects = {"objects":"some objects"};
+        const objects = await objectsService.getAllObjects();
+        logger.info( colorText("Objects retrieved"));
 
         res.json(objects);
     }catch(error){

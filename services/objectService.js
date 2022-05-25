@@ -64,7 +64,7 @@ exports.getAllObjects = async () => {
         // Get object from objects service
         logger.debug( colorText("Getting all objects") );
 
-        const objects = "nothing"
+        const objects = await Object.find({});
 
         result.result = "success";
         result.message = "List retrieved";
