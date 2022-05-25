@@ -1,4 +1,5 @@
 const Object = require('../models/objectModel');
+const User = require('../models/userModel');
 const logger = require('../utils/logger');
 const colorText = require('../utils/colortext');
 const { ObjectId } = require('mongoose').Types;
@@ -113,12 +114,28 @@ exports.getAllByListName = async (name, userId) => {
 
     try{
         // Get object from objects service
-        logger.debug( colorText("Getting all objects for a List") );
-
-        const objects = "nothing"
+        logger.debug( colorText("Getting all objects for list") );
+        // Queries for the named list
+        const query = await User.aggregate([
+            { $match:{"_id": ObjectId(userId) } },
+            { $lookup: { 
+                from: "lists", 
+                localField: "lists", 
+                foreignField: "_id", 
+                as: "lists",
+                pipeline: [{ 
+                    $match:{"name":name} 
+                }]  
+            } }, 
+            { $project:{"lists":1} } 
+        ]);
+        if(query[0].lists.length < 1) { result.messsage = `The user doesn't have a list named ${name}`; return result };
+        logger.debug( colorText(`Named list found ${JSON.stringify(query[0].lists[0])}`) );
+        
+        const objects = await Object.find({"listId": ObjectId(query[0].lists[0]._id) });
 
         result.result = "success";
-        result.message = "List retrieved";
+        result.message = `Objects retrieved for list ${name}`;
         result.data = objects
 
         logger.debug( colorText(`${operation} ${JSON.stringify(result)}`) );

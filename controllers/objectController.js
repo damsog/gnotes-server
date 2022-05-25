@@ -72,7 +72,8 @@ exports.getAllByListName = async (req, res) => {
         // Get object from objects service
         logger.debug( colorText("Getting all objects for a List") );
 
-        const objects = {"objects":"some objects"};
+        const objects = await objectsService.getAllByListName(req.params.name, req.user.user_id);
+        logger.info( colorText("Objects retrieved"));
 
         res.json(objects);
     }catch(error){
