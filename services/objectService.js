@@ -80,7 +80,7 @@ exports.getAllObjects = async () => {
     }
 }
 
-exports.getAllObjectsByListId = async (id) => {
+exports.getAllByListId = async (id) => {
     const operation = `Query Objects for list ${id}`;
     logger.debug( colorText(`${operation}`) );
     
@@ -88,9 +88,8 @@ exports.getAllObjectsByListId = async (id) => {
 
     try{
         // Get object from objects service
-        logger.debug( colorText("Getting all objects for a List") );
-
-        const objects = "nothing"
+        logger.debug( colorText("Getting all objects for list") );
+        const objects = await Object.find({"listId": ObjectId(id) });
 
         result.result = "success";
         result.message = "Objects retrieved";
@@ -106,7 +105,7 @@ exports.getAllObjectsByListId = async (id) => {
     }
 }
 
-exports.getAllObjectsByListName = async (name, userId) => {
+exports.getAllByListName = async (name, userId) => {
     const operation = `Query Objects for list ${name} user ${userId}`;
     logger.debug( colorText(`${operation}`) );
     
@@ -132,7 +131,7 @@ exports.getAllObjectsByListName = async (name, userId) => {
     }
 }
 
-exports.getAllObjectsByFilters = async (options) => {
+exports.getAllByFilters = async (options) => {
     const operation = `Query Objects with options ${options}`;
     logger.debug( colorText(`${operation}`) );
     
