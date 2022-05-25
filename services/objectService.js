@@ -1,6 +1,7 @@
 const Object = require('../models/objectModel');
 const logger = require('../utils/logger');
 const colorText = require('../utils/colortext');
+const { ObjectId } = require('mongoose').Types;
 
 resultStructure = (operation) => { 
     return result = {
@@ -13,26 +14,26 @@ resultStructure = (operation) => {
 
 exports.createObject = async (options) => {
     const operation = "Create Object";
-    logger.debug( colorText(`${operation}`) );
+    logger.debug( colorText(`${operation} with options ${JSON.stringify(options)}`) );
     
     var result = resultStructure(operation);
 
     try {
         // Checking if the object exists for the list
-        //const query = await Object.aggregate([
-        //    { $lookup: { 
-        //        from: "lists", 
-        //        localField: "lists", 
-        //        foreignField: "_id", 
-        //        as: "lists",
-        //        pipeline: [{ 
-        //            $match:{"_id":options.listId} 
-        //        }]  
-        //    } }, 
-        //    { $match:{"lists._id": options.listsId } }
-        //]);
+        const query = await Object.aggregate([
+            { $match:{"title":options.title} },
+            { $lookup: { 
+                from: "lists", 
+                localField: "listId", 
+                foreignField: "_id", 
+                as: "lists"
+            } }, 
+            { $match:{"lists._id": ObjectId(options.listId) } }
+        ]);
+        logger.debug( colorText(`Found on the DB: ${JSON.stringify(query)}`) );
+        if(query.length > 0) { result.messsage = `The object ${options.title} already exists on the list`; return result };
 
-        // TODO: Validations
+        // TODO: Other Validations
 
         // Create a new object
         logger.debug( colorText("Creating new object") );
