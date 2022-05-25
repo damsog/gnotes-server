@@ -19,23 +19,25 @@ exports.createObject = async (options) => {
 
     try {
         // Checking if the object exists for the list
-        const query = await Object.aggregate([
-            { $lookup: { 
-                from: "lists", 
-                localField: "lists", 
-                foreignField: "_id", 
-                as: "lists",
-                pipeline: [{ 
-                    $match:{"_id":options.listId} 
-                }]  
-            } }, 
-            { $match:{"lists._id": options.listsId } }
-        ]);
+        //const query = await Object.aggregate([
+        //    { $lookup: { 
+        //        from: "lists", 
+        //        localField: "lists", 
+        //        foreignField: "_id", 
+        //        as: "lists",
+        //        pipeline: [{ 
+        //            $match:{"_id":options.listId} 
+        //        }]  
+        //    } }, 
+        //    { $match:{"lists._id": options.listsId } }
+        //]);
+
+        // TODO: Validations
 
         // Create a new object
         logger.debug( colorText("Creating new object") );
 
-        const object = "nothing"
+        const object = await Object.create(options);
 
         result.result = "success";
         result.message = "Object Created";

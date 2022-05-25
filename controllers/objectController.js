@@ -30,7 +30,7 @@ exports.createObject = async (req, res) => {
         // Create a new object
         logger.debug( colorText("Creating new object") );
 
-        const objectCreated = objectsService.createObject(options);
+        const objectCreated = await objectsService.createObject(options);
         logger.info( colorText("Object created"));
 
         res.json(objectCreated);

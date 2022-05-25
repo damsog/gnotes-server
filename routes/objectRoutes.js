@@ -249,7 +249,7 @@ router.delete('/deleteObject/:id' , objectController.deleteObject );
   *                  type: object
   *                  items:
   *                      type: string
-  *              attachment:
+  *              attachments:
   *                  type: object
   *                  items:
   *                      type: string
@@ -286,7 +286,7 @@ router.delete('/deleteObject/:id' , objectController.deleteObject );
   *                  type: object
   *                  items:
   *                      type: string
-  *              attachment:
+  *              attachments:
   *                  type: object
   *                  items:
   *                      type: string
