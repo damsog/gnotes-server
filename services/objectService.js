@@ -186,7 +186,7 @@ exports.getObject = async (id) => {
         // Get object
         logger.debug( colorText("Getting object by id") );
 
-        const object = "nothing"
+        const object = await Object.findById(id);
 
         result.result = "success";
         result.message = "List retrieved";

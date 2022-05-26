@@ -99,8 +99,8 @@ exports.getObject = async (req, res) => {
         // Get object
         logger.debug( colorText("Getting object by id") );
 
-        const object = {"object":"some object"};
-        logger.info( colorText("Object Found: "));
+        const object = await objectsService.getObject(req.params.id);
+        logger.info( colorText(`Object Found: ${JSON.stringify(object)}`));
         
         res.json(object);
     }catch(error){

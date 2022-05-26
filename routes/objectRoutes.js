@@ -106,7 +106,7 @@ router.get('/getAllByListName/:name' , objectController.getAllByListName );
 
 /**
  * @swagger
- * /api/object/getAllByFilters:
+ * /api/objects/getAllByFilters:
  *  get:
  *      summary: Get Objects by filters
  *      tags: [Objects]
@@ -135,7 +135,7 @@ router.get('/getAllByFilters' , objectController.getAllByFilters );
 
 /**
  * @swagger
- * /api/object/getObject/{id}:
+ * /api/objects/getObject/{id}:
  *  get:
  *      summary: Return Object by id
  *      security:
@@ -163,7 +163,7 @@ router.get('/getObject/:id' , objectController.getObject );
 
 /**
  * @swagger
- * /api/object/updateObject/{id}:
+ * /api/objects/updateObject/{id}:
  *  put:
  *      summary: Updates Object
  *      security:
