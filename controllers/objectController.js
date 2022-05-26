@@ -109,12 +109,23 @@ exports.getObject = async (req, res) => {
 }
 
 exports.updateObject = async (req, res) => {
+    // Update a List
+    logger.debug( colorText(`Updating an Object with options: ${JSON.stringify(req.body)}`) );
+
+    options = {
+        title: req.body.title,
+        description: req.body.description,
+        information: req.body.information,
+        filters: req.body.filters,
+        attachments: req.body.attachments
+    };
+
     try{
       // Get object
       logger.debug( colorText("Update object information") );
 
-      const result = {"result":"some result"};
-      logger.info( colorText("Object Updated: "));
+      const result = await objectsService.updateObject(options, req.params.id);
+      logger.info( colorText(`Object Updated: ${req.params.id}`));
         
       res.json(result);
   }catch(error){

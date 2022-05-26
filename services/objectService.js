@@ -1,4 +1,4 @@
-const Object = require('../models/objectModel');
+const ObjectM = require('../models/objectModel');
 const User = require('../models/userModel');
 const logger = require('../utils/logger');
 const colorText = require('../utils/colortext');
@@ -21,7 +21,7 @@ exports.createObject = async (options) => {
 
     try {
         // Checking if the object exists for the list
-        const query = await Object.aggregate([
+        const query = await ObjectM.aggregate([
             { $match:{"title":options.title} },
             { $lookup: { 
                 from: "lists", 
@@ -39,7 +39,7 @@ exports.createObject = async (options) => {
         // Create a new object
         logger.debug( colorText("Creating new object") );
 
-        const object = await Object.create(options);
+        const object = await ObjectM.create(options);
 
         result.result = "success";
         result.message = "Object Created";
@@ -65,7 +65,7 @@ exports.getAllObjects = async () => {
         // Get object from objects service
         logger.debug( colorText("Getting all objects") );
 
-        const objects = await Object.find({});
+        const objects = await ObjectM.find({});
 
         result.result = "success";
         result.message = "List retrieved";
@@ -90,7 +90,7 @@ exports.getAllByListId = async (id) => {
     try{
         // Get object from objects service
         logger.debug( colorText("Getting all objects for list") );
-        const objects = await Object.find({"listId": ObjectId(id) });
+        const objects = await ObjectM.find({"listId": ObjectId(id) });
 
         result.result = "success";
         result.message = "Objects retrieved";
@@ -134,7 +134,7 @@ exports.getAllByListName = async (name, userId) => {
         if(query[0].lists.length < 1) { result.messsage = `The user doesn't have a list named ${name}`; return result };
         logger.debug( colorText(`Named list found ${JSON.stringify(query[0].lists[0])}`) );
         
-        const objects = await Object.find({"listId": ObjectId(query[0].lists[0]._id) });
+        const objects = await ObjectM.find({"listId": ObjectId(query[0].lists[0]._id) });
 
         result.result = "success";
         result.message = `Objects retrieved for list ${name}`;
@@ -186,7 +186,7 @@ exports.getObject = async (id) => {
         // Get object
         logger.debug( colorText("Getting object by id") );
 
-        const object = await Object.findById(id);
+        const object = await ObjectM.findById(id);
 
         result.result = "success";
         result.message = "List retrieved";
@@ -202,30 +202,37 @@ exports.getObject = async (id) => {
     }
 }
 
-exports.updateObject = async (id) => {
+exports.updateObject = async (options, id) => {
     const operation = `Update object ${id}`;
     logger.debug( colorText(`${operation}`) );
     
     var result = resultStructure(operation);
 
     try{
-      // Get object
-      logger.debug( colorText("Update object information") );
+        // Getting object for Id
+        const object = await ObjectM.findById(id);
+        
+        // Validates which options were provided
+        for (const [key, value] of Object.entries(options)) {
+            if(value !== undefined) object[key] = value;
+        }
 
-      const object = "nothing"
+        logger.debug( colorText(`New object: ${JSON.stringify(object)}`) );
 
-      result.result = "success";
-      result.message = "List retrieved";
-      result.data = object
+        await object.save();
 
-      logger.debug( colorText(`${operation} ${JSON.stringify(result)}`) );
-      return result;
-  }catch(error){
-    result.result = "failed";
-    result.message = error.message;
+        result.result = "success";
+        result.message = "List retrieved";
+        result.data = object
 
-    logger.debug( colorText(`${operation} ${JSON.stringify(result)}`) );
-  }
+        logger.debug( colorText(`${operation} ${JSON.stringify(result)}`) );
+        return result;
+    }catch(error){
+        result.result = "failed";
+        result.message = error.message;
+
+        logger.debug( colorText(`${operation} ${JSON.stringify(result)}`) );
+    }
 }
 
 exports.updateObjectFilters = async (options) => {
