@@ -163,7 +163,7 @@ exports.getAllByFilters = async (options) => {
         const objects = "nothing"
 
         result.result = "success";
-        result.message = "List retrieved";
+        result.message = "Objects retrieved";
         result.data = objects
 
         logger.debug( colorText(`${operation} ${JSON.stringify(result)}`) );
@@ -189,7 +189,7 @@ exports.getObject = async (id) => {
         const object = await ObjectM.findById(id);
 
         result.result = "success";
-        result.message = "List retrieved";
+        result.message = "Object retrieved";
         result.data = object
 
         logger.debug( colorText(`${operation} ${JSON.stringify(result)}`) );
@@ -222,7 +222,7 @@ exports.updateObject = async (options, id) => {
         await object.save();
 
         result.result = "success";
-        result.message = "List retrieved";
+        result.message = "Object updated";
         result.data = object
 
         logger.debug( colorText(`${operation} ${JSON.stringify(result)}`) );
@@ -242,23 +242,23 @@ exports.updateObjectFilters = async (options) => {
     var result = resultStructure(operation);
 
     try{
-      // Get object
-      logger.debug( colorText("Update object filters information") );
+        // Get object
+        logger.debug( colorText("Update object filters information") );
 
-      const object = "nothing"
+        const object = "nothing"
 
-      result.result = "success";
-      result.message = "List retrieved";
-      result.data = object
+        result.result = "success";
+        result.message = "Object Filters updated";
+        result.data = object
 
-      logger.debug( colorText(`${operation} ${JSON.stringify(result)}`) );
-      return result;
-  }catch(error){
-    result.result = "failed";
-    result.message = error.message;
+        logger.debug( colorText(`${operation} ${JSON.stringify(result)}`) );
+        return result;
+    }catch(error){
+        result.result = "failed";
+        result.message = error.message;
 
-    logger.debug( colorText(`${operation} ${JSON.stringify(result)}`) );
-  }
+        logger.debug( colorText(`${operation} ${JSON.stringify(result)}`) );
+    }
 }
 
 exports.deleteObject = async (id) => {
@@ -268,19 +268,23 @@ exports.deleteObject = async (id) => {
     var result = resultStructure(operation);
 
     try{
-      // Deleting object
-      logger.debug( colorText("Deleting object") );
+        // Validates if object Exists
+        const object = await ObjectM.findById(id);
+        if (!object) {result.message = "Object doesn't exist"; return result}
 
-      result.result = "success";
-      result.message = "List retrieved";
-      result.data = id
+        // Else continues with deletion
+        await ObjectM.deleteOne({_id:`${id}`});
 
-      logger.debug( colorText(`${operation} ${JSON.stringify(result)}`) );
-      return result;
-  }catch(error){
-    result.result = "failed";
-    result.message = error.message;
+        result.result = "success";
+        result.message = "Object deleted";
+        result.data = id
 
-    logger.debug( colorText(`${operation} ${JSON.stringify(result)}`) );
-  }
+        logger.debug( colorText(`${operation} ${JSON.stringify(result)}`) );
+        return result;
+    }catch(error){
+        result.result = "failed";
+        result.message = error.message;
+
+        logger.debug( colorText(`${operation} ${JSON.stringify(result)}`) );
+    }
 }

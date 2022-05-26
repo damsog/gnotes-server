@@ -152,8 +152,8 @@ exports.deleteObject = async (req, res) => {
       // Deleting object
       logger.debug( colorText("Deleting object") );
 
-      const result = {"result":"some result"}
-      logger.info( colorText("Object Deleted: "));
+      const result = await objectsService.deleteObject(req.params.id);
+      logger.info( colorText(`Object deletion result: ${result}`));
         
       res.json(result);
   }catch(error){
