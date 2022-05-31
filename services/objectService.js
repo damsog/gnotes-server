@@ -28,13 +28,12 @@ parseFilters = (string_filters) => {
         if (entry_array.length > 2) throw new Error("Filter not understood.");
         
         // Check if less than 2 values
-        if (entry_array.length < 2) others_list.push(entry_array[0]);
+        if (entry_array.length < 2){ others_list.push(entry_array[0]); continue };
 
         // If has exactly 2 elements
-
         // If the second element is an array
-        if ( (entry_array[1].substring(0,1) === "[") && (entry_array[1].substring(entry_array[1].length-1,entry_array[1].length) ) ){
-            data = entry_array[1].substring(1,entry_array[0]-1).split(",");
+        if ( (entry_array[1].substring(0,1) === "[") && (entry_array[1].substring(entry_array[1].length-1,entry_array[1].length) === "]" ) ){
+            data = entry_array[1].substring(1,entry_array[1].length-1).split(",");
         }else{
             data = entry_array[1];
         }
@@ -42,6 +41,10 @@ parseFilters = (string_filters) => {
         filters_json[entry_array[0]] = data;
         
     }
+
+    filters_json["others"] = others_list;
+
+    return filters_json;
 }
 
 exports.createObject = async (options) => {
