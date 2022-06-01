@@ -219,7 +219,7 @@ router.get('/getObject/:id' , objectController.getObject );
  *                                
  */
 router.put('/updateObject/:id' , objectController.updateObject );
-router.put('/updateObjectFilters' , objectController.updateObjectFilters );
+router.put('/updateObjectOptions' , objectController.updateObjectOptions );
 
 /**
  * @swagger

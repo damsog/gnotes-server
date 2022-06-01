@@ -159,17 +159,25 @@ exports.updateObject = async (req, res) => {
   }
 }
 
-exports.updateObjectFilters = async (req, res) => {
+exports.updateObjectOptions = async (req, res) => {
+    // Update a List
+    logger.debug( colorText(`Updating an Object Options for : ${JSON.stringify(req.body)}`) );
+
+    options = {
+        filters: req.body.filters,
+        attachments: req.body.attachments
+    };
+
     try{
       // Get object
-      logger.debug( colorText("Update object filters information") );
+      logger.debug( colorText("Update object options") );
 
-      const result = {"result":"some result"};
-      logger.info( colorText("Object Updated: "));
+      const result = await objectsService.updateObjectOptions(options, req.params.id);
+      logger.info( colorText(`Object Updated: ${req.params.id}`));
         
       res.json(result);
   }catch(error){
-      res.status(500).send(`There was an error updating object information: ${error}`);
+      res.status(500).send(`There was an error updating object options: ${error}`);
   }
 }
 

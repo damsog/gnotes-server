@@ -1,4 +1,4 @@
-const  optionsParser = (string_filters, allow_lists = true) => {
+exports.optionsParser = (string_filters, allow_lists = true) => {
     let filters_json = {};
     let others_list = [];
 
@@ -34,5 +34,3 @@ const  optionsParser = (string_filters, allow_lists = true) => {
 
     return filters_json;
 }
-
-module.exports = optionsParser;

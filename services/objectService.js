@@ -3,7 +3,7 @@ const User = require('../models/userModel');
 const logger = require('../utils/logger');
 const colorText = require('../utils/colortext');
 const { ObjectId } = require('mongoose').Types;
-const optionsParser = require('../utils/optionsParser');
+const parser = require('../utils/parser');
 
 resultStructure = (operation) => { 
     return result = {
@@ -37,10 +37,10 @@ exports.createObject = async (options) => {
 
         // TODO: Other Validations
         // Parsing the Filters
-        options.filters = optionsParser(options.filters);
+        options.filters = parser.optionsParser(options.filters);
 
         // Parsing the Attachments
-        options.attachments = optionsParser(options.attachments, false);
+        options.attachments = parser.optionsParser(options.attachments, false);
 
         // Create a new object
         logger.debug( colorText("Creating new object") );
@@ -106,10 +106,10 @@ exports.createObjectByListName = async (options, userId) => {
 
         // TODO: Other Validations
         // Parsing the Filters
-        options.filters = optionsParser(options.filters);
+        options.filters = parser.optionsParser(options.filters);
 
         // Parsing the Attachments
-        options.attachments = optionsParser(options.attachments, false);
+        options.attachments = parser.optionsParser(options.attachments, false);
 
         // Create a new object
         logger.debug( colorText("Creating new object") );
@@ -278,6 +278,39 @@ exports.getObject = async (id) => {
 }
 
 exports.updateObject = async (options, id) => {
+    const operation = `Update object ${id}`;
+    logger.debug( colorText(`${operation}`) );
+    
+    var result = resultStructure(operation);
+
+    try{
+        // Getting object for Id
+        const object = await ObjectM.findById(id);
+        
+        // Validates which options were provided
+        for (const [key, value] of Object.entries(options)) {
+            if(value !== undefined) object[key] = value;
+        }
+
+        logger.debug( colorText(`New object: ${JSON.stringify(object)}`) );
+
+        await object.save();
+
+        result.result = "success";
+        result.message = "Object updated";
+        result.data = object
+
+        logger.debug( colorText(`${operation} ${JSON.stringify(result)}`) );
+        return result;
+    }catch(error){
+        result.result = "failed";
+        result.message = error.message;
+
+        logger.debug( colorText(`${operation} ${JSON.stringify(result)}`) );
+    }
+}
+
+exports.updateObjectOptions = async (options, id) => {
     const operation = `Update object ${id}`;
     logger.debug( colorText(`${operation}`) );
     
