@@ -283,13 +283,11 @@ router.delete('/deleteObject/:id' , objectController.deleteObject );
   *                  type: string
   *                  description: List Description
   *              filters:
-  *                  type: object
-  *                  items:
-  *                      type: string
+  *                  type: string
+  *                  description: List Description
   *              attachments:
-  *                  type: object
-  *                  items:
-  *                      type: string
+  *                  type: string
+  *                  description: List Description
   *              listId:
   *                  type: int
   *                  description: The auto-generated id of the user
@@ -314,13 +312,11 @@ router.delete('/deleteObject/:id' , objectController.deleteObject );
   *                  type: string
   *                  description: List Description
   *              filters:
-  *                  type: object
-  *                  items:
-  *                      type: string
+  *                  type: string
+  *                  description: List Description
   *              attachments:
-  *                  type: object
-  *                  items:
-  *                      type: string
+  *                  type: string
+  *                  description: List Description
 */
 
 module.exports = router;

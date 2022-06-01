@@ -69,6 +69,8 @@ exports.createObject = async (options) => {
         if(query.length > 0) { result.messsage = `The object ${options.title} already exists on the list`; return result };
 
         // TODO: Other Validations
+        // Parsing the filters
+        options.filters = parseFilters(options.filters);
 
         // Create a new object
         logger.debug( colorText("Creating new object") );
