@@ -34,3 +34,70 @@ exports.optionsParser = (string_filters, allow_lists = true) => {
 
     return filters_json;
 }
+
+getKeysTypes = (json) => {
+    keysTypesJson = {};
+
+    return keysTypesJson;
+}
+
+exports.updateOptionsJson = (i_json, s_json) => {
+    i_keys = getKeysTypes(i_json);
+    s_keys = getKeysTypes(s_json);
+    updatedJson = Object.assign({}, s_json);
+
+    for( const i_key of i_keys ){
+        switch (true){
+            case (i_keys[i_key]==="val" && s_keys[i_key]==="val"):
+                // Does nothing
+                break;
+
+            case (i_keys[i_key]==="val" && s_keys[i_key]==="pair"):
+                // Error reducing from pair to single val
+                throw new Error("Error. parameter saved as pair. delete first");
+
+            case (i_keys[i_key]==="val" && s_keys[i_key]==="list"):
+                // Error reducing from list to single val
+                throw new Error("Error. parameter saved as list. delete first");   
+
+            case (i_keys[i_key]==="pair" && s_keys[i_key]==="val"):
+                // Make ir pair
+                updatedJson["others"].splice(updatedJson["others"].indexOf(i_key), 1);
+                updatedJson[i_key] = i_json[i_key];
+                break;
+
+            case (i_keys[i_key]==="pair" && s_keys[i_key]==="pair"):
+                // Direct Save
+                updatedJson[i_key] = i_json[i_key];
+                break;
+
+            case (i_keys[i_key]==="pair" && s_keys[i_key]==="list"):
+                // Add new
+                updatedJson[i_key].push(i_json[i_key]);
+                break;
+
+            case (i_keys[i_key]==="list" && s_keys[i_key]==="val"):
+                // Make it list
+                updatedJson["others"].splice(updatedJson["others"].indexOf(i_key), 1);
+                updatedJson[i_key] = i_json[i_key];
+                break;
+
+            case (i_keys[i_key]==="list" && s_keys[i_key]==="pair"):
+                // Make it list
+                let new_list = i_json[i_key];
+                new_list.push(s_json[i_key]);
+                updatedJson[i_key] = new_list;
+                break;
+
+            case (i_keys[i_key]==="list" && s_keys[i_key]==="list"):
+                // Add new
+                let combined_list = s_json[i_key];
+                for(const i_key_val of i_json[i_key]) combined_list.push(i_key_val);
+
+                updatedJson[i_key] = [... Set(combined_list)];
+                break;
+        }
+    }
+
+    return updatedJson;
+}
