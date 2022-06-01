@@ -5,7 +5,7 @@ const  optionsParser = (string_filters, allow_lists = true) => {
     const filters_array = string_filters.split("|");
     
     for (const entry of filters_array) {
-        let entry_array = entry.split(":");
+        let entry_array = entry.split("=>");
 
         // TODO: Check if Keyval is valid. Checks here if DB injection
  
