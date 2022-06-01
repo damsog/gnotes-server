@@ -38,6 +38,19 @@ exports.optionsParser = (string_filters, allow_lists = true) => {
 getKeysTypes = (json) => {
     keysTypesJson = {};
 
+    for (const [key, value] of Object.entries(json)) {
+        if(key === 'others') continue;
+
+        if(typeof value === 'string'){
+            keysTypesJson[key] = 'pair';
+            continue;
+        }
+
+        keysTypesJson[key] = 'list';
+    }
+
+    for( const val of json["others"]) keysTypesJson[val] = 'val';
+
     return keysTypesJson;
 }
 
