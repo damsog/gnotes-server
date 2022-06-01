@@ -39,6 +39,32 @@ exports.createObject = async (req, res) => {
     }
 }
 
+exports.createObjectByListName = async (req, res) => {
+    // Create a new user
+    logger.debug( colorText(`Creating new object with options: ${JSON.stringify(req.body)}`) );
+
+    options = {
+            title: req.body.title,
+            description: req.body.description,
+            information: req.body.information,
+            filters: req.body.filters,
+            attachments: req.body.attachments,
+            listName: req.body.listName
+    };
+
+    try {
+        // Create a new object
+        logger.debug( colorText("Creating new object") );
+
+        const objectCreated = await objectsService.createObjectByListName(options, req.user.user_id);
+        logger.info( colorText("Object created"));
+
+        res.json(objectCreated);
+    }catch(error) {
+        res.status(500).send(`There was an error creating the object: ${error}`);
+    }
+}
+
 exports.getAllObjects = async (req, res) => {
     try{
         // Get object from objects service

@@ -61,6 +61,74 @@ exports.createObject = async (options) => {
     }
 }
 
+exports.createObjectByListName = async (options, userId) => {
+    const operation = "Create Object";
+    logger.debug( colorText(`${operation} with options ${JSON.stringify(options)}`) );
+    
+    var result = resultStructure(operation);
+
+    try {
+        // Check the list by its name
+        const queryList = await User.aggregate([
+            { $match:{"_id": ObjectId(userId) } },
+            { $lookup: { 
+                from: "lists", 
+                localField: "lists", 
+                foreignField: "_id", 
+                as: "lists",
+                pipeline: [{ 
+                    $match:{"name":options.listName} 
+                }]  
+            } }, 
+            { $project:{"lists":1} } 
+        ]);
+        logger.debug( colorText(`Query list ${options.listName} result ${JSON.stringify(queryList)}`) );
+        if(queryList[0].lists.length < 1) { result.messsage = `No list named ${options.listName} found for user`; return result };
+        
+        logger.debug( colorText(`Found list ${options.listName} with id ${JSON.stringify(queryList[0].lists[0])}`) );
+        options.listId = queryList[0].lists[0]._id;
+        delete options.listName;
+
+        // Checking if the object exists for the list
+        const query = await ObjectM.aggregate([
+            { $match:{"title":options.title} },
+            { $lookup: { 
+                from: "lists", 
+                localField: "listId", 
+                foreignField: "_id", 
+                as: "lists"
+            } }, 
+            { $match:{"lists._id": ObjectId(options.listId) } }
+        ]);
+        logger.debug( colorText(`Found on the DB: ${JSON.stringify(query)}`) );
+        if(query.length > 0) { result.messsage = `The object ${options.title} already exists on the list`; return result };
+
+        // TODO: Other Validations
+        // Parsing the Filters
+        options.filters = optionsParser(options.filters);
+
+        // Parsing the Attachments
+        options.attachments = optionsParser(options.attachments, false);
+
+        // Create a new object
+        logger.debug( colorText("Creating new object") );
+
+        const object = await ObjectM.create(options);
+
+        result.result = "success";
+        result.message = "Object Created";
+        result.data = object
+
+        logger.debug( colorText(`${operation} ${JSON.stringify(result)}`) );
+        return result;
+    }catch(error) {
+        result.result = "failed";
+        result.message = error.message;
+
+        logger.debug( colorText(`${operation} ${JSON.stringify(result)}`) );
+    }
+}
+
 exports.getAllObjects = async () => {
     const operation = "Query All Objects";
     logger.debug( colorText(`${operation}`) );

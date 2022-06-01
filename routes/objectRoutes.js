@@ -29,6 +29,31 @@ router.post('/create' , objectController.createObject );
 
 /**
  * @swagger
+ * /api/objects/createByListName:
+ *  post:
+ *      summary: Create a new Object
+ *      tags: [Objects]
+ *      requestBody:
+ *          required: true
+ *          content: 
+ *              application/json:
+ *                  schema:
+ *                      $ref: '#/components/schemas/objectToCreateByListName'
+ *      responses:
+ *          200:
+ *              description: Object created
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: array
+ *                          items:
+ *                              $ref: '#/components/schemas/object'
+ *                                
+ */
+ router.post('/createByListName' , objectController.createObjectByListName );
+
+/**
+ * @swagger
  * /api/objects/getAllObjects:
  *  get:
  *      summary: Return all Ojects
@@ -275,22 +300,51 @@ router.delete('/deleteObject/:id' , objectController.deleteObject );
   *          properties:
   *              title:
   *                  type: string
-  *                  description: List name
+  *                  description: Object name
   *              description:
   *                  type: string
-  *                  description: List Description
+  *                  description: Object Description
   *              information:
   *                  type: string
-  *                  description: List Description
+  *                  description: Object Information
   *              filters:
   *                  type: string
-  *                  description: List Description
+  *                  description: Object Filters.
   *              attachments:
   *                  type: string
-  *                  description: List Description
+  *                  description: Object attachments.
   *              listId:
-  *                  type: int
+  *                  type: string
   *                  description: The auto-generated id of the user
+ */
+
+ /**
+  * @swagger
+  * components:
+  *  schemas:
+  *      objectToCreateByListName:
+  *          type: object
+  *          required:
+  *              - name
+  *          properties:
+  *              title:
+  *                  type: string
+  *                  description: Object name
+  *              description:
+  *                  type: string
+  *                  description: Object Description
+  *              information:
+  *                  type: string
+  *                  description: Object Information
+  *              filters:
+  *                  type: string
+  *                  description: Object Filters. 
+  *              attachments:
+  *                  type: string
+  *                  description: Object attachments.
+  *              listName:
+  *                  type: string
+  *                  description: List name
  */
 
  /**
@@ -304,19 +358,19 @@ router.delete('/deleteObject/:id' , objectController.deleteObject );
   *          properties:
   *              title:
   *                  type: string
-  *                  description: List name
+  *                  description: Object name
   *              description:
   *                  type: string
-  *                  description: List Description
+  *                  description: Object Description
   *              information:
   *                  type: string
-  *                  description: List Description
+  *                  description: Object Information
   *              filters:
   *                  type: string
-  *                  description: List Description
+  *                  description: Object Filters.
   *              attachments:
   *                  type: string
-  *                  description: List Description
+  *                  description: Object attachments.
 */
 
 module.exports = router;
