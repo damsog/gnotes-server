@@ -85,6 +85,7 @@ exports.createObjectByListName = async (options, userId) => {
         logger.debug( colorText(`Query list ${options.listName} result ${JSON.stringify(queryList)}`) );
         if(queryList[0].lists.length < 1) { result.messsage = `No list named ${options.listName} found for user`; return result };
         
+        // If the list exists use its id
         logger.debug( colorText(`Found list ${options.listName} with id ${JSON.stringify(queryList[0].lists[0])}`) );
         options.listId = queryList[0].lists[0]._id;
         delete options.listName;
