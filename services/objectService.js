@@ -320,12 +320,19 @@ exports.updateObjectOptions = async (options, id) => {
         // Getting object for Id
         const object = await ObjectM.findById(id);
         
-        // Validates which options were provided
-        for (const [key, value] of Object.entries(options)) {
-            if(value !== undefined) object[key] = value;
+        if(options.filters!==undefined){
+            // Parsing the Filters
+            options.filters = parser.optionsParser(options.filters);
+
+            object.filters = parser.updateOptionsJson(options.filters, object.filters);
         }
 
-        logger.debug( colorText(`New object: ${JSON.stringify(object)}`) );
+        if(options.attachments!==undefined){
+            // Parsing the Filters
+            options.attachments = parser.optionsParser(options.attachments, true);
+
+            object.attachments = parser.updateOptionsJson(options.attachments, object.attachments);
+        }
 
         await object.save();
 
