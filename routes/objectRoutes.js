@@ -219,7 +219,40 @@ router.get('/getObject/:id' , objectController.getObject );
  *                                
  */
 router.put('/updateObject/:id' , objectController.updateObject );
-router.put('/updateObjectOptions' , objectController.updateObjectOptions );
+
+/**
+ * @swagger
+ * /api/objects/updateObjectOptions/{id}:
+ *  put:
+ *      summary: Updates Object
+ *      security:
+ *          - bearerAuth: []
+ *      tags: [Objects]
+ *      parameters:
+ *          -   in: path
+ *              name: id
+ *              schema:
+ *                  type: string
+ *              required: true
+ *              description: Object id
+ *      requestBody:
+ *          required: true
+ *          content: 
+ *              application/json:
+ *                  schema:
+ *                      $ref: '#/components/schemas/objectToUpdateObjects'
+ *      responses:
+ *          200:
+ *              description: Updated object if operation was succesful
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/object'
+ *          404:
+ *              description: Object not found
+ *                                
+ */
+router.put('/updateObjectOptions/:id' , objectController.updateObjectOptions );
 
 /**
  * @swagger
@@ -365,6 +398,21 @@ router.delete('/deleteObject/:id' , objectController.deleteObject );
   *              information:
   *                  type: string
   *                  description: Object Information
+  *              filters:
+  *                  type: string
+  *                  description: Object Filters.
+  *              attachments:
+  *                  type: string
+  *                  description: Object attachments.
+*/
+
+ /**
+  * @swagger
+  * components:
+  *  schemas:
+  *      objectToUpdateObjects:
+  *          type: object
+  *          properties:
   *              filters:
   *                  type: string
   *                  description: Object Filters.

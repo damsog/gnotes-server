@@ -319,19 +319,27 @@ exports.updateObjectOptions = async (options, id) => {
     try{
         // Getting object for Id
         const object = await ObjectM.findById(id);
+
+        if(options===undefined) { result.messsage = `Object not found`; return result };
         
         if(options.filters!==undefined){
             // Parsing the Filters
             options.filters = parser.optionsParser(options.filters);
+            logger.debug( colorText(`Incomming Filters ${JSON.stringify(options.filters)} <==> Saved Filters ${JSON.stringify(object.filters)}`) );
 
+            // Update the Json object
             object.filters = parser.updateOptionsJson(options.filters, object.filters);
+            logger.debug( colorText(`Updated Filters ${JSON.stringify(object.filters)}`) );
         }
 
         if(options.attachments!==undefined){
             // Parsing the Filters
-            options.attachments = parser.optionsParser(options.attachments, true);
+            options.attachments = parser.optionsParser(options.attachments, false);
+            logger.debug( colorText(`Incomming Attachments ${JSON.stringify(options.attachments)} <==> Saved Attachments ${JSON.stringify(object.attachments)}`) );
 
+            // Update the Json object
             object.attachments = parser.updateOptionsJson(options.attachments, object.attachments);
+            logger.debug( colorText(`Updated Attachments ${JSON.stringify(object.attachments)}`) );
         }
 
         await object.save();
@@ -350,7 +358,7 @@ exports.updateObjectOptions = async (options, id) => {
     }
 }
 
-exports.updateObjectFilters = async (options) => {
+exports.updateObjectFilters = async (options, id) => {
     const operation = `Update Object with options ${options}`;
     logger.debug( colorText(`${operation}`) );
     

@@ -65,13 +65,14 @@ exports.updateOptionsJson = (i_json, s_json) => {
 
         // If the key doesn't exist
         if(!(i_key in s_keys)){
+
             // Validates if its a single value
-            console.log("new key");
             if(i_value==="val"){
-                console.log("new key val");
+                if(!updatedJson["others"]) updatedJson["others"] = []
                 updatedJson["others"].push(i_key);
                 continue;
             }
+            
             // Otherwise just append it to the updated json            
             console.log("new key other");
             updatedJson[i_key] = i_json[i_key];
