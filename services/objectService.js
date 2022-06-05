@@ -277,6 +277,64 @@ exports.getObject = async (id) => {
     }
 }
 
+exports.getObjectByName = async (objectName, listName, userId) => {
+    const operation = `Query Object ${objectName}`;
+    logger.debug( colorText(`${operation}`) );
+    
+    var result = resultStructure(operation);
+
+    try{
+        // Get object
+        logger.debug( colorText(`Getting object ${objectName} on list ${listName}`) );
+
+        // Queries for the named object on the named list
+        const query = await User.aggregate([
+            { $match:{"_id": ObjectId(userId) } },
+            { $lookup: { 
+                from: "lists", 
+                localField: "lists", 
+                foreignField: "_id", 
+                as: "lists",
+                pipeline: [ 
+                    { $match:{"name":listName} },
+                    { $lookup:{ 
+                        from:"objects",
+                        localField:"_id",
+                        foreignField:"listId",
+                        as:"objects",
+                        pipeline:[
+                            {$match:{"title":objectName}}
+                        ]
+                    }}                    
+                ]  
+            } }, 
+            { $project:{"lists.objects":1} } 
+        ]);
+
+        // If list doesn't exists for the user
+        if(query[0].lists.length < 1) { result.messsage = `The user doesn't have a list named ${listName}`; return result };
+
+        // If object doesn't exists for the list
+        if(query[0].lists[0].objects.length < 1) { result.messsage = `The list doesn't have an object named ${objectName}`; return result };
+        
+        logger.debug( colorText(`Named object found ${JSON.stringify(query[0].lists[0].objects[0])}`) );
+
+        const object = query[0].lists[0].objects[0];
+
+        result.result = "success";
+        result.message = "Object retrieved";
+        result.data = object
+
+        logger.debug( colorText(`${operation} ${JSON.stringify(result)}`) );
+        return result;
+    }catch(error){
+        result.result = "failed";
+        result.message = error.message;
+
+        logger.debug( colorText(`${operation} ${JSON.stringify(result)}`) );
+    }
+}
+
 exports.updateObject = async (options, id) => {
     const operation = `Update object ${id}`;
     logger.debug( colorText(`${operation}`) );
@@ -356,6 +414,60 @@ exports.updateObjectOptions = async (options, id) => {
 
         logger.debug( colorText(`${operation} ${JSON.stringify(result)}`) );
     }
+}
+
+exports.updateOptionsByName = async (options, objectName, listName, userId) => {
+    const operation = `Update object by name ${id}`;
+    logger.debug( colorText(`${operation}`) );
+    
+    var result = resultStructure(operation);
+
+    try{
+        // Get object from objects service
+        logger.debug( colorText(`Getting object ${objectName} on list ${listName}`) );
+        // Queries for the named list
+        const query = await User.aggregate([
+            { $match:{"_id": ObjectId(userId) } },
+            { $lookup: { 
+                from: "lists", 
+                localField: "lists", 
+                foreignField: "_id", 
+                as: "lists",
+                pipeline: [ 
+                    { $match:{"name":listName} },
+                    { $lookup:{ 
+                        from:"objects",
+                        localField:"_id",
+                        foreignField:"listId",
+                        as:"objects",
+                        pipeline:[
+                            {$match:{"title":objectName}}
+                        ]
+                    }}                    
+                ]  
+            } }, 
+            { $project:{"lists.objects":1} } 
+        ]);
+
+        // If list exists for the user, queiry all its objects
+        if(query[0].lists.length < 1) { result.messsage = `The user doesn't have a list named ${listName}`; return result };
+        logger.debug( colorText(`Named list found ${JSON.stringify(query[0].lists[0])}`) );
+        
+        const objects = await ObjectM.find({"listId": ObjectId(query[0].lists[0]._id) });
+
+        result.result = "success";
+        result.message = "Object updated";
+        result.data = object
+
+        logger.debug( colorText(`${operation} ${JSON.stringify(result)}`) );
+
+    }catch(error){
+        result.result = "failed";
+        result.message = error.message;
+
+        logger.debug( colorText(`${operation} ${JSON.stringify(result)}`) );
+    }
+
 }
 
 exports.removeObjectOptions = async (options, id) => {

@@ -188,6 +188,40 @@ router.get('/get/:id' , objectController.get );
 
 /**
  * @swagger
+ * /api/objects/getByName/{objectName}/{listName}:
+ *  get:
+ *      summary: Return Object by id
+ *      security:
+ *          - bearerAuth: []
+ *      tags: [Objects]
+ *      parameters:
+ *          -   in: path
+ *              name: objectName
+ *              schema:
+ *                  type: string
+ *              required: true
+ *              description: Object name
+ *          -   in: path
+ *              name: listName
+ *              schema:
+ *                  type: string
+ *              required: true
+ *              description: List name
+ *      responses:
+ *          200:
+ *              description: Object with id
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/object'
+ *          404:
+ *              description: Object not found
+ *                                
+ */
+ router.get('/getByName/:objectName/:listName' , objectController.getByName );
+
+/**
+ * @swagger
  * /api/objects/update/{id}:
  *  put:
  *      summary: Updates Object

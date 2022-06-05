@@ -134,6 +134,20 @@ exports.get = async (req, res) => {
     }
 }
 
+exports.getByName = async (req, res) => {
+    try{
+        // Get object
+        logger.debug( colorText("Getting object by name") );
+
+        const object = await objectsService.getObjectByName(req.params.objectName,req.params.listName,req.user.user_id);
+        logger.info( colorText(`Object Found: ${JSON.stringify(object)}`));
+        
+        res.json(object);
+    }catch(error){
+        res.status(500).send(`There was an error getting object information: ${error}`);
+    }
+}
+
 exports.update = async (req, res) => {
     // Update a List
     logger.debug( colorText(`Updating an Object with options: ${JSON.stringify(req.body)}`) );
