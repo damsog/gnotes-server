@@ -4,7 +4,8 @@
   "description": "Gnotes Server App",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "test": "jest --watchAll"
   },
   "author": "Felipe Serna",
   "license": "ISC",
@@ -32,6 +33,7 @@
     "winston": "^3.6.0"
   },
   "devDependencies": {
+    "jest": "^28.1.0",
     "nodemon": "^2.0.15"
   }
 }
