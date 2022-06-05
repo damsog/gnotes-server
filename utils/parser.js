@@ -84,25 +84,21 @@ exports.updateOptionsJson = (i_json, s_json) => {
         switch (true){
             // Already exists as single value
             case (i_keys[i_key]==="val" && s_keys[i_key]==="val"):
-                console.log("case 1");
                 // Does nothing
                 break;
             
             // In as single val but exists as a pair
             case (i_keys[i_key]==="val" && s_keys[i_key]==="pair"):
-                console.log("case 2");
                 // Error reducing from pair to single val
                 throw new Error("Error. parameter saved as pair. delete first");
 
             // In as single val but exists as a list
             case (i_keys[i_key]==="val" && s_keys[i_key]==="list"):
-                console.log("case 3");
                 // Error reducing from list to single val
                 throw new Error("Error. parameter saved as list. delete first");   
             
             // In as pair but exists as val
             case (i_keys[i_key]==="pair" && s_keys[i_key]==="val"):
-                console.log("case 4");
                 // Make it pair
                 updatedJson["others"].splice(updatedJson["others"].indexOf(i_key), 1);
                 updatedJson[i_key] = i_json[i_key];
@@ -110,21 +106,18 @@ exports.updateOptionsJson = (i_json, s_json) => {
 
             // In as pair but exists as pair
             case (i_keys[i_key]==="pair" && s_keys[i_key]==="pair"):
-                console.log("case 5");
                 // Direct Update
                 updatedJson[i_key] = i_json[i_key];
                 break;
             
             // In as pair but exists as list
             case (i_keys[i_key]==="pair" && s_keys[i_key]==="list"):
-                console.log("case 6");
                 // Add new
                 updatedJson[i_key].push(i_json[i_key]);
                 break;
             
             // In as list but exists as val
             case (i_keys[i_key]==="list" && s_keys[i_key]==="val"):
-                console.log("case 7");
                 // Make it list
                 updatedJson["others"].splice(updatedJson["others"].indexOf(i_key), 1);
                 updatedJson[i_key] = i_json[i_key];
@@ -132,7 +125,6 @@ exports.updateOptionsJson = (i_json, s_json) => {
             
             // In as list but exists as pair
             case (i_keys[i_key]==="list" && s_keys[i_key]==="pair"):
-                console.log("case 8");
                 // Make it list
                 let new_list = i_json[i_key];
                 new_list.push(s_json[i_key]);
@@ -141,11 +133,86 @@ exports.updateOptionsJson = (i_json, s_json) => {
             
             // In as list but exists as list
             case (i_keys[i_key]==="list" && s_keys[i_key]==="list"):
-                console.log("case 9");
                 // Add new. Mix the lists
                 for(const i_key_val of i_json[i_key]) updatedJson[i_key].push(i_key_val);
 
                 updatedJson[i_key] = [... new Set(updatedJson[i_key])];
+                break;
+        }
+    }
+
+    return updatedJson;
+}
+
+exports.removeOptionsJson = (i_json, s_json) => {
+    let i_keys = getKeysTypes(i_json);
+    let s_keys = getKeysTypes(s_json);
+    let updatedJson = JSON.parse(JSON.stringify(s_json));
+
+    // Iterates thrugh all the keys of the incomming object
+    for( const [i_key,i_value] of Object.entries(i_keys) ){
+
+        // If the key doesn't exist
+        if(!(i_key in s_keys)) throw new Error("Error. parameter doesn't exist in the object");
+
+        switch(true){
+            // In as val but exists as val
+            case (i_keys[i_key]==="val" && s_keys[i_key]==="val"):
+                updatedJson["others"].splice(updatedJson["others"].indexOf( i_json[i_key] ), 1);
+                break;
+
+            // In as pair but exists as val
+            case (i_keys[i_key]==="pair" && s_keys[i_key]==="val"):
+                throw new Error("Error. parameter doesn't exist in the object");
+            
+            // In as pair but exists as pair
+            case (i_keys[i_key]==="pair" && s_keys[i_key]==="pair"):
+                delete updatedJson[i_key];
+                break;
+
+            // In as pair but exists as list
+            case (i_keys[i_key]==="pair" && s_keys[i_key]==="list"):
+                // If parameter doesn't exist in the object throw an error
+                if(!( updatedJson[i_key].includes(i_json[i_key]) )) throw new Error("Error. parameter doesn't exist in the object");
+
+                // If it does exist remove it from list
+                updatedJson[i_key].splice(updatedJson[i_key].indexOf( i_json[i_key] ), 1);
+
+                // If after removing the list just has 1 element reduce the key to type pair
+                if(updatedJson[i_key].length < 2) updatedJson[i_key] = updatedJson[i_key][0];
+
+                break;
+            
+            // In as list but exists as val
+            case (i_keys[i_key]==="list" && s_keys[i_key]==="val"):
+                throw new Error("Error. parameter doesn't exist in the object");
+            
+            // In as list but exists as pair
+            case (i_keys[i_key]==="list" && s_keys[i_key]==="pair"):
+                throw new Error("Error. parameter doesn't exist in the object");
+            
+            // In as list but exists as list
+            case (i_keys[i_key]==="list" && s_keys[i_key]==="list"):
+                // Iterates for the in list to remove
+                for(const i_key_val of i_json[i_key]){
+                    // If a term on the in list throw an error
+                    if(!( updatedJson[i_key].includes(i_key_val) )) throw new Error("Error. parameter doesn't exist in the object");
+
+                    // Removes the elements
+                    updatedJson[i_key].splice(updatedJson[i_key].indexOf( i_key_val ), 1);
+                }
+                
+                // If after removing the list just has 1 element reduce the key to type pair
+                if(updatedJson[i_key].length < 2) updatedJson[i_key] = updatedJson[i_key][0];
+
+                // If after removing the list is empty rmoves it completly
+                if(updatedJson[i_key].length < 2) delete updatedJson[i_key];
+
+                break;
+            
+            // Default its the in is type val. in which case just delete
+            default:
+                delete updatedJson[i_key];
                 break;
         }
     }
