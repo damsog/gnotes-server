@@ -347,7 +347,13 @@ exports.updateObject = async (options, id) => {
         
         // Validates which options were provided
         for (const [key, value] of Object.entries(options)) {
-            if(value !== undefined) object[key] = value;
+            if(value !== undefined) {
+                // Parse filters and attachments
+                if(key==="filters"){ object[key] = parser.optionsParser(value); continue };
+                if(key==="attachments"){ object[key] = parser.optionsParser(value, false); continue };
+
+                object[key] = value;
+            }
         }
 
         logger.debug( colorText(`New object: ${JSON.stringify(object)}`) );
