@@ -13,7 +13,7 @@ const listsService = require('../services/listService');
 const logger = require('../utils/logger');
 const colorText = require('../utils/colortext');
 
-exports.createList = async (req, res) => {
+exports.create = async (req, res) => {
         // Create a new user
     logger.debug( colorText(`Creating new user with options: ${req.body}`) );
     
@@ -35,7 +35,7 @@ exports.createList = async (req, res) => {
     }
 }
 
-exports.getAllLists = async (req, res) => {
+exports.getAll = async (req, res) => {
     try{
         // Get list from lists service
         logger.debug( colorText("Getting all lists") );
@@ -49,7 +49,7 @@ exports.getAllLists = async (req, res) => {
     }
 }
 
-exports.getAllByUserId = async (req, res) => {
+exports.getByUserId = async (req, res) => {
     try{
         // Get list from lists service
         logger.debug( colorText("Getting all lists for a user") );
@@ -63,7 +63,7 @@ exports.getAllByUserId = async (req, res) => {
     }
 }
 
-exports.getList = async (req, res) => {
+exports.get = async (req, res) => {
     try{
         // Get list
         logger.debug( colorText("Getting list by id") );
@@ -77,7 +77,7 @@ exports.getList = async (req, res) => {
     }
 }
 
-exports.getListByName = async (req, res) => {
+exports.getByName = async (req, res) => {
     try{
         // Get list
         logger.debug( colorText("Getting list by Name") );
@@ -91,7 +91,7 @@ exports.getListByName = async (req, res) => {
     }
 }
 
-exports.updateList = async (req, res) => {
+exports.update = async (req, res) => {
     // Update a List
     logger.debug( colorText(`Updating a List with options: ${req.body}`) );
 
@@ -113,7 +113,7 @@ exports.updateList = async (req, res) => {
   }
 }
 
-exports.deleteList = async (req, res) => {
+exports.delete = async (req, res) => {
     try{
       // Deleting list
       logger.debug( colorText("Deleting list") );

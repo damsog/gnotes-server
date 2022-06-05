@@ -25,11 +25,11 @@ const listController = require('../controllers/listController');
  *                              $ref: '#/components/schemas/list'
  *                                
  */
-router.post('/create', listController.createList);
+router.post('/create', listController.create);
 
 /**
  * @swagger
- * /api/lists/getAllLists:
+ * /api/lists/getAll:
  *  get:
  *      summary: Return all Lists
  *      security:
@@ -46,11 +46,11 @@ router.post('/create', listController.createList);
  *                              $ref: '#/components/schemas/list'
  *                                
  */
-router.get('/getAllLists', listController.getAllLists);
+router.get('/getAll', listController.getAll);
 
 /**
  * @swagger
- * /api/lists/getAllByUserId/{id}:
+ * /api/lists/getByUserId/{id}:
  *  get:
  *      summary: Return all lists for a user
  *      security:
@@ -74,12 +74,12 @@ router.get('/getAllLists', listController.getAllLists);
  *              description: List not found
  *                                
  */
-router.get('/getAllByUserId/:id', listController.getAllByUserId);
+router.get('/getByUserId/:id', listController.getByUserId);
 
 
 /**
  * @swagger
- * /api/lists/getList/{id}:
+ * /api/lists/get/{id}:
  *  get:
  *      summary: Return List by id
  *      security:
@@ -103,11 +103,11 @@ router.get('/getAllByUserId/:id', listController.getAllByUserId);
  *              description: List not found
  *                                
  */
-router.get('/getList/:id', listController.getList);
+router.get('/get/:id', listController.get);
 
 /**
  * @swagger
- * /api/lists/getListByName/{name}:
+ * /api/lists/getByName/{name}:
  *  get:
  *      summary: Return List by Name
  *      security:
@@ -131,11 +131,11 @@ router.get('/getList/:id', listController.getList);
  *              description: List not found
  *                                
  */
- router.get('/getListByName/:name', listController.getListByName);
+ router.get('/getByName/:name', listController.getByName);
 
 /**
  * @swagger
- * /api/lists/updateList/{id}:
+ * /api/lists/update/{id}:
  *  put:
  *      summary: Updates list
  *      security:
@@ -165,11 +165,11 @@ router.get('/getList/:id', listController.getList);
  *              description: User not found
  *                                
  */
-router.put('/updateList/:id', listController.updateList);
+router.put('/update/:id', listController.update);
 
 /**
  * @swagger
- * /api/lists/deleteList/{id}:
+ * /api/lists/delete/{id}:
  *  delete:
  *      summary: Deletes a list by id
  *      security:
@@ -193,7 +193,7 @@ router.put('/updateList/:id', listController.updateList);
  *              description: User not found
  *                                
  */
-router.delete('/deleteList/:id', listController.deleteList);
+router.delete('/delete/:id', listController.delete);
 
  /**
   * @swagger
