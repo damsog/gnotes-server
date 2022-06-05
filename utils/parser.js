@@ -112,7 +112,7 @@ exports.updateOptionsJson = (i_json, s_json) => {
             // In as pair but exists as list
             case (i_keys[i_key]==="pair" && s_keys[i_key]==="list"):
                 // Add new
-                updatedJson[i_key].push(i_json[i_key]);
+                if(!(updatedJson[i_key].includes(i_json[i_key]))) updatedJson[i_key].push(i_json[i_key]);
                 break;
             
             // In as list but exists as val

@@ -43,6 +43,7 @@ let updateOptionsInputs = {
     '{"actors":"15"}':{"genres": ["scify","drama"],"score": "8","actors":"15","others": ["acclaimed"] },
     '{"acclaimed":"yes"}':{"genres": ["scify","drama"],"score": "8","acclaimed":"yes","others": [] },
     '{"genres":"violent"}':{"genres": ["scify","drama","violent"],"score": "8","others": ["acclaimed"] },
+    '{"genres":"drama"}':{"genres": ["scify","drama"],"score": "8","others": ["acclaimed"] },
     '{"names":["cutter","el cortador"]}':{"genres": ["scify","drama"],"score": "8", "names":["cutter","el cortador"],"others": ["acclaimed"] },
     '{"score":["5","7.8"]}':{"genres": ["scify","drama"],"score": ["5","7.8","8"],"others": ["acclaimed"] },
     '{"genres":["slasher","gore"]}':{"genres": ["scify","drama","slasher","gore"],"score": "8","others": ["acclaimed"] }    
