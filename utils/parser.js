@@ -35,7 +35,7 @@ exports.optionsParser = (string_filters, allow_lists = true) => {
     return filters_json;
 }
 
-getKeysTypes = (json) => {
+exports.getKeysTypes = (json) => {
     let keysTypesJson = {};
 
     for (const [key, value] of Object.entries(json)) {
@@ -56,8 +56,8 @@ getKeysTypes = (json) => {
 }
 
 exports.updateOptionsJson = (i_json, s_json) => {
-    let i_keys = getKeysTypes(i_json);
-    let s_keys = getKeysTypes(s_json);
+    let i_keys = this.getKeysTypes(i_json);
+    let s_keys = this.getKeysTypes(s_json);
     let updatedJson = JSON.parse(JSON.stringify(s_json));
 
     // Iterates thrugh all the keys of the incomming object
@@ -74,7 +74,6 @@ exports.updateOptionsJson = (i_json, s_json) => {
             }
             
             // Otherwise just append it to the updated json            
-            console.log("new key other");
             updatedJson[i_key] = i_json[i_key];
             continue;
         }
@@ -145,8 +144,8 @@ exports.updateOptionsJson = (i_json, s_json) => {
 }
 
 exports.removeOptionsJson = (i_json, s_json) => {
-    let i_keys = getKeysTypes(i_json);
-    let s_keys = getKeysTypes(s_json);
+    let i_keys = this.getKeysTypes(i_json);
+    let s_keys = this.getKeysTypes(s_json);
     let updatedJson = JSON.parse(JSON.stringify(s_json));
 
     // Iterates thrugh all the keys of the incomming object
