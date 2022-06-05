@@ -256,6 +256,40 @@ router.put('/updateObjectOptions/:id' , objectController.updateObjectOptions );
 
 /**
  * @swagger
+ * /api/objects/removeObjectOptions/{id}:
+ *  delete:
+ *      summary: Updates Object
+ *      security:
+ *          - bearerAuth: []
+ *      tags: [Objects]
+ *      parameters:
+ *          -   in: path
+ *              name: id
+ *              schema:
+ *                  type: string
+ *              required: true
+ *              description: Object id
+ *      requestBody:
+ *          required: true
+ *          content: 
+ *              application/json:
+ *                  schema:
+ *                      $ref: '#/components/schemas/objectToUpdateObjects'
+ *      responses:
+ *          200:
+ *              description: Updated object if operation was succesful
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/object'
+ *          404:
+ *              description: Object not found
+ *                                
+ */
+ router.delete('/removeObjectOptions/:id' , objectController.removeObjectOptions );
+
+/**
+ * @swagger
  * /api/objects/deleteObject/{id}:
  *  delete:
  *      summary: Deletes an object by id

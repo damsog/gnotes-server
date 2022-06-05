@@ -358,20 +358,42 @@ exports.updateObjectOptions = async (options, id) => {
     }
 }
 
-exports.updateObjectFilters = async (options, id) => {
-    const operation = `Update Object with options ${options}`;
+exports.removeObjectOptions = async (options, id) => {
+    const operation = `Update object ${id}`;
     logger.debug( colorText(`${operation}`) );
     
     var result = resultStructure(operation);
 
     try{
-        // Get object
-        logger.debug( colorText("Update object filters information") );
+        // Getting object for Id
+        const object = await ObjectM.findById(id);
 
-        const object = "nothing"
+        if(options===undefined) { result.messsage = `Object not found`; return result };
+        
+        if(options.filters!==undefined){
+            // Parsing the Filters
+            options.filters = parser.optionsParser(options.filters);
+            logger.debug( colorText(`Filters to Remove ${JSON.stringify(options.filters)} <==> Saved Filters ${JSON.stringify(object.filters)}`) );
+
+            // Update the Json object
+            object.filters = parser.removeOptionsJson(options.filters, object.filters);
+            logger.debug( colorText(`Updated Filters ${JSON.stringify(object.filters)}`) );
+        }
+
+        if(options.attachments!==undefined){
+            // Parsing the Filters
+            options.attachments = parser.optionsParser(options.attachments, false);
+            logger.debug( colorText(`Attachments to Remove ${JSON.stringify(options.attachments)} <==> Saved Attachments ${JSON.stringify(object.attachments)}`) );
+
+            // Update the Json object
+            object.attachments = parser.removeOptionsJson(options.attachments, object.attachments);
+            logger.debug( colorText(`Updated Attachments ${JSON.stringify(object.attachments)}`) );
+        }
+
+        await object.save();
 
         result.result = "success";
-        result.message = "Object Filters updated";
+        result.message = "Object updated";
         result.data = object
 
         logger.debug( colorText(`${operation} ${JSON.stringify(result)}`) );
