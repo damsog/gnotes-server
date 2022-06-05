@@ -54,7 +54,7 @@ router.post('/create' , objectController.createObject );
 
 /**
  * @swagger
- * /api/objects/getAllObjects:
+ * /api/objects/getAll:
  *  get:
  *      summary: Return all Ojects
  *      security:
@@ -71,11 +71,11 @@ router.post('/create' , objectController.createObject );
  *                              $ref: '#/components/schemas/object'
  *                                
  */
-router.get('/getAllObjects' , objectController.getAllObjects );
+router.get('/getAll' , objectController.getAll );
 
 /**
  * @swagger
- * /api/objects/getAllByListId/{id}:
+ * /api/objects/getByListId/{id}:
  *  get:
  *      summary: Return all objects for a list
  *      security:
@@ -99,11 +99,11 @@ router.get('/getAllObjects' , objectController.getAllObjects );
  *              description: Object not found
  *                                
  */
-router.get('/getAllByListId/:id' , objectController.getAllByListId );
+router.get('/getByListId/:id' , objectController.getByListId );
 
 /**
  * @swagger
- * /api/objects/getAllByListName/{name}:
+ * /api/objects/getByListName/{name}:
  *  get:
  *      summary: Return all objects for a named list
  *      security:
@@ -127,11 +127,11 @@ router.get('/getAllByListId/:id' , objectController.getAllByListId );
  *              description: Object not found
  *                                
  */
-router.get('/getAllByListName/:name' , objectController.getAllByListName );
+router.get('/getByListName/:name' , objectController.getByListName );
 
 /**
  * @swagger
- * /api/objects/getAllByFilters:
+ * /api/objects/getByFilters:
  *  get:
  *      summary: Get Objects by filters
  *      tags: [Objects]
@@ -156,11 +156,11 @@ router.get('/getAllByListName/:name' , objectController.getAllByListName );
  *              description: Object not found
  *                                
  */
-router.get('/getAllByFilters' , objectController.getAllByFilters );
+router.get('/getByFilters' , objectController.getByFilters );
 
 /**
  * @swagger
- * /api/objects/getObject/{id}:
+ * /api/objects/get/{id}:
  *  get:
  *      summary: Return Object by id
  *      security:
@@ -184,11 +184,11 @@ router.get('/getAllByFilters' , objectController.getAllByFilters );
  *              description: Object not found
  *                                
  */
-router.get('/getObject/:id' , objectController.getObject );
+router.get('/get/:id' , objectController.get );
 
 /**
  * @swagger
- * /api/objects/updateObject/{id}:
+ * /api/objects/update/{id}:
  *  put:
  *      summary: Updates Object
  *      security:
@@ -218,11 +218,11 @@ router.get('/getObject/:id' , objectController.getObject );
  *              description: Object not found
  *                                
  */
-router.put('/updateObject/:id' , objectController.updateObject );
+router.put('/update/:id' , objectController.update );
 
 /**
  * @swagger
- * /api/objects/updateObjectOptions/{id}:
+ * /api/objects/updateOptions/{id}:
  *  put:
  *      summary: Updates Object
  *      security:
@@ -252,11 +252,11 @@ router.put('/updateObject/:id' , objectController.updateObject );
  *              description: Object not found
  *                                
  */
-router.put('/updateObjectOptions/:id' , objectController.updateObjectOptions );
+router.put('/updateOptions/:id' , objectController.updateOptions );
 
 /**
  * @swagger
- * /api/objects/removeObjectOptions/{id}:
+ * /api/objects/removeOptions/{id}:
  *  delete:
  *      summary: Updates Object
  *      security:
@@ -286,11 +286,11 @@ router.put('/updateObjectOptions/:id' , objectController.updateObjectOptions );
  *              description: Object not found
  *                                
  */
- router.delete('/removeObjectOptions/:id' , objectController.removeObjectOptions );
+ router.delete('/removeOptions/:id' , objectController.removeOptions );
 
 /**
  * @swagger
- * /api/objects/deleteObject/{id}:
+ * /api/objects/delete/{id}:
  *  delete:
  *      summary: Deletes an object by id
  *      security:
@@ -314,7 +314,7 @@ router.put('/updateObjectOptions/:id' , objectController.updateObjectOptions );
  *              description: Object not found
  *                                
  */
-router.delete('/deleteObject/:id' , objectController.deleteObject );
+router.delete('/delete/:id' , objectController.delete );
 
  /**
   * @swagger

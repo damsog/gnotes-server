@@ -65,7 +65,7 @@ exports.createObjectByListName = async (req, res) => {
     }
 }
 
-exports.getAllObjects = async (req, res) => {
+exports.getAll = async (req, res) => {
     try{
         // Get object from objects service
         logger.debug( colorText("Getting all objects") );
@@ -79,7 +79,7 @@ exports.getAllObjects = async (req, res) => {
     }
 }
 
-exports.getAllByListId = async (req, res) => {
+exports.getByListId = async (req, res) => {
     try{
         // Get object from objects service
         logger.debug( colorText("Getting all objects for a List") );
@@ -93,7 +93,7 @@ exports.getAllByListId = async (req, res) => {
     }
 }
 
-exports.getAllByListName = async (req, res) => {
+exports.getByListName = async (req, res) => {
     try{
         // Get object from objects service
         logger.debug( colorText("Getting all objects for a List") );
@@ -107,7 +107,7 @@ exports.getAllByListName = async (req, res) => {
     }
 }
 
-exports.getAllByFilters = async (req, res) => {
+exports.getByFilters = async (req, res) => {
     try{
         // Get object from objects service
         logger.debug( colorText("Getting all objects for a List given filter options") );
@@ -120,7 +120,7 @@ exports.getAllByFilters = async (req, res) => {
     }
 }
 
-exports.getObject = async (req, res) => {
+exports.get = async (req, res) => {
     try{
         // Get object
         logger.debug( colorText("Getting object by id") );
@@ -134,7 +134,7 @@ exports.getObject = async (req, res) => {
     }
 }
 
-exports.updateObject = async (req, res) => {
+exports.update = async (req, res) => {
     // Update a List
     logger.debug( colorText(`Updating an Object with options: ${JSON.stringify(req.body)}`) );
 
@@ -159,7 +159,7 @@ exports.updateObject = async (req, res) => {
   }
 }
 
-exports.updateObjectOptions = async (req, res) => {
+exports.updateOptions = async (req, res) => {
     // Update a List
     logger.debug( colorText(`Updating an Object Options for : ${JSON.stringify(req.body)}`) );
 
@@ -181,7 +181,7 @@ exports.updateObjectOptions = async (req, res) => {
   }
 }
 
-exports.removeObjectOptions = async (req, res) => {
+exports.removeOptions = async (req, res) => {
     // Update a List
     logger.debug( colorText(`Removing Object Options for : ${JSON.stringify(req.body)}`) );
 
@@ -203,7 +203,7 @@ exports.removeObjectOptions = async (req, res) => {
   }
 }
 
-exports.deleteObject = async (req, res) => {
+exports.delete = async (req, res) => {
     try{
       // Deleting object
       logger.debug( colorText("Deleting object") );
