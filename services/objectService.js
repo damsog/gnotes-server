@@ -641,7 +641,7 @@ exports.removeOptionsByName = async (options, objectName, listName, userId) => {
 }
 
 exports.deleteObject = async (id) => {
-    const operation = `Query List ${id}`;
+    const operation = `Delete Object ${id}`;
     logger.debug( colorText(`${operation}`) );
     
     var result = resultStructure(operation);
@@ -657,6 +657,62 @@ exports.deleteObject = async (id) => {
         result.result = "success";
         result.message = "Object deleted";
         result.data = id
+
+        logger.debug( colorText(`${operation} ${JSON.stringify(result)}`) );
+        return result;
+    }catch(error){
+        result.result = "failed";
+        result.message = error.message;
+
+        logger.debug( colorText(`${operation} ${JSON.stringify(result)}`) );
+    }
+}
+
+exports.deleteByName = async (objectName, listName, userId) => {
+    const operation = `Delete Object ${objectName}`;
+    logger.debug( colorText(`${operation}`) );
+    
+    var result = resultStructure(operation);
+
+    try{
+        // Get object from objects service
+        logger.debug( colorText(`Getting object ${objectName} on list ${listName}`) );
+
+        // Queries for the named object on the named list
+        const query = await User.aggregate([
+            { $match:{"_id": ObjectId(userId) } },
+            { $lookup: { 
+                from: "lists", 
+                localField: "lists", 
+                foreignField: "_id", 
+                as: "lists",
+                pipeline: [ 
+                    { $match:{"name":listName} },
+                    { $lookup:{ 
+                        from:"objects",
+                        localField:"_id",
+                        foreignField:"listId",
+                        as:"objects",
+                        pipeline:[
+                            {$match:{"title":objectName}}
+                        ]
+                    }}                    
+                ]  
+            } }, 
+            { $project:{"lists.objects":1} } 
+        ]);
+
+        // If list doesn't exists for the user
+        if(query[0].lists.length < 1) { result.messsage = `The user doesn't have a list named ${listName}`; return result };
+
+        // If object doesn't exists for the list
+        if(query[0].lists[0].objects.length < 1) { result.messsage = `The list doesn't have an object named ${objectName}`; return result };
+
+        let resultQuery = await this.deleteObject(query[0].lists[0].objects[0]._id);
+
+        result.result = resultQuery.result;
+        result.message = resultQuery.message;
+        result.data = resultQuery.data;
 
         logger.debug( colorText(`${operation} ${JSON.stringify(result)}`) );
         return result;

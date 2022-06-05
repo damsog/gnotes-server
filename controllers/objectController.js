@@ -299,3 +299,17 @@ exports.delete = async (req, res) => {
       res.status(500).send(`There was an error deleting object: ${error}`);
   }
 }
+
+exports.deleteByName = async (req, res) => {
+    try{
+      // Deleting object
+      logger.debug( colorText("Deleting object") );
+
+      const result = await objectsService.deleteByName(req.params.objectName, req.params.listName, req.user.user_id );
+      logger.info( colorText(`Object deletion result: ${result}`));
+        
+      res.json(result);
+  }catch(error){
+      res.status(500).send(`There was an error deleting object: ${error}`);
+  }
+}

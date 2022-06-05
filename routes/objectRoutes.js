@@ -470,6 +470,40 @@ router.put('/updateOptions/:id' , objectController.updateOptions );
  */
 router.delete('/delete/:id' , objectController.delete );
 
+/**
+ * @swagger
+ * /api/objects/deleteByName/{objectName}/{listName}:
+ *  delete:
+ *      summary: Deletes an object by id
+ *      security:
+ *          - bearerAuth: []
+ *      tags: [Objects]
+ *      parameters:
+ *          -   in: path
+ *              name: objectName
+ *              schema:
+ *                  type: string
+ *              required: true
+ *              description: Object name
+ *          -   in: path
+ *              name: listName
+ *              schema:
+ *                  type: string
+ *              required: true
+ *              description: List name
+ *      responses:
+ *          200:
+ *              description: If operation was succesful
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: string
+ *          404:
+ *              description: Object not found
+ *                                
+ */
+ router.delete('/deleteByName/:objectName/:listName' , objectController.deleteByName);
+
  /**
   * @swagger
   * components:
