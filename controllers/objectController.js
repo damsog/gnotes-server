@@ -239,6 +239,28 @@ exports.removeOptions = async (req, res) => {
   }
 }
 
+exports.removeOptionsByName = async (req, res) => {
+    // Update a List
+    logger.debug( colorText(`Removing Object Options for : ${JSON.stringify(req.body)}`) );
+
+    options = {
+        filters: req.body.filters,
+        attachments: req.body.attachments
+    };
+
+    try{
+      // Get object
+      logger.debug( colorText("Remove object options") );
+
+      const result = await objectsService.removeOptionsByName( options, req.params.objectName, req.params.listName, req.user.user_id );
+      logger.info( colorText(`Object Updated: ${req.params.id}`));
+        
+      res.json(result);
+  }catch(error){
+      res.status(500).send(`There was an error updating object options: ${error}`);
+  }
+}
+
 exports.delete = async (req, res) => {
     try{
       // Deleting object
