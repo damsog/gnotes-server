@@ -150,7 +150,7 @@ exports.getByName = async (req, res) => {
 
 exports.update = async (req, res) => {
     // Update a List
-    logger.debug( colorText(`Updating an Object with options: ${JSON.stringify(req.body)}`) );
+    logger.debug( colorText(`Updating Object with options: ${JSON.stringify(req.body)}`) );
 
     options = {
         title: req.body.title,
@@ -165,6 +165,31 @@ exports.update = async (req, res) => {
       logger.debug( colorText("Update object information") );
 
       const result = await objectsService.updateObject(options, req.params.id);
+      logger.info( colorText(`Object Updated: ${req.params.id}`));
+        
+      res.json(result);
+  }catch(error){
+      res.status(500).send(`There was an error updating object information: ${error}`);
+  }
+}
+
+exports.updateByName = async (req, res) => {
+    // Update a List
+    logger.debug( colorText(`Updating Object with options: ${JSON.stringify(req.body)}`) );
+
+    options = {
+        title: req.body.title,
+        description: req.body.description,
+        information: req.body.information,
+        filters: req.body.filters,
+        attachments: req.body.attachments
+    };
+
+    try{
+      // Get object
+      logger.debug( colorText("Update object information") );
+
+      const result = await objectsService.updateByName(options, req.params.objectName, req.params.listName, req.user.user_id );
       logger.info( colorText(`Object Updated: ${req.params.id}`));
         
       res.json(result);
@@ -252,7 +277,7 @@ exports.removeOptionsByName = async (req, res) => {
       // Get object
       logger.debug( colorText("Remove object options") );
 
-      const result = await objectsService.removeOptionsByName( options, req.params.objectName, req.params.listName, req.user.user_id );
+      const result = await objectsService.removeObjectOptionsByName( options, req.params.objectName, req.params.listName, req.user.user_id );
       logger.info( colorText(`Object Updated: ${req.params.id}`));
         
       res.json(result);
