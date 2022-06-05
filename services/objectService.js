@@ -369,7 +369,7 @@ exports.updateObject = async (options, id) => {
 }
 
 exports.updateObjectOptions = async (options, id) => {
-    const operation = `Update object ${id}`;
+    const operation = `Update object options ${id}`;
     logger.debug( colorText(`${operation}`) );
     
     var result = resultStructure(operation);
@@ -417,7 +417,7 @@ exports.updateObjectOptions = async (options, id) => {
 }
 
 exports.updateOptionsByName = async (options, objectName, listName, userId) => {
-    const operation = `Update object by name ${id}`;
+    const operation = `Update object options by name ${objectName}`;
     logger.debug( colorText(`${operation}`) );
     
     var result = resultStructure(operation);
@@ -425,7 +425,8 @@ exports.updateOptionsByName = async (options, objectName, listName, userId) => {
     try{
         // Get object from objects service
         logger.debug( colorText(`Getting object ${objectName} on list ${listName}`) );
-        // Queries for the named list
+
+        // Queries for the named object on the named list
         const query = await User.aggregate([
             { $match:{"_id": ObjectId(userId) } },
             { $lookup: { 
@@ -449,18 +450,20 @@ exports.updateOptionsByName = async (options, objectName, listName, userId) => {
             { $project:{"lists.objects":1} } 
         ]);
 
-        // If list exists for the user, queiry all its objects
+        // If list doesn't exists for the user
         if(query[0].lists.length < 1) { result.messsage = `The user doesn't have a list named ${listName}`; return result };
-        logger.debug( colorText(`Named list found ${JSON.stringify(query[0].lists[0])}`) );
-        
-        const objects = await ObjectM.find({"listId": ObjectId(query[0].lists[0]._id) });
 
-        result.result = "success";
-        result.message = "Object updated";
-        result.data = object
+        // If object doesn't exists for the list
+        if(query[0].lists[0].objects.length < 1) { result.messsage = `The list doesn't have an object named ${objectName}`; return result };
+        
+        let resultQuery = await this.updateObjectOptions(options, query[0].lists[0].objects[0]._id);
+
+        result.result = resultQuery.result;
+        result.message = resultQuery.message;
+        result.data = resultQuery.data;
 
         logger.debug( colorText(`${operation} ${JSON.stringify(result)}`) );
-
+        return result;
     }catch(error){
         result.result = "failed";
         result.message = error.message;

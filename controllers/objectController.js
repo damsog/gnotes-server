@@ -175,7 +175,7 @@ exports.update = async (req, res) => {
 
 exports.updateOptions = async (req, res) => {
     // Update a List
-    logger.debug( colorText(`Updating an Object Options for : ${JSON.stringify(req.body)}`) );
+    logger.debug( colorText(`Updating Object Options for : ${JSON.stringify(req.body)}`) );
 
     options = {
         filters: req.body.filters,
@@ -187,6 +187,28 @@ exports.updateOptions = async (req, res) => {
       logger.debug( colorText("Update object options") );
 
       const result = await objectsService.updateObjectOptions(options, req.params.id);
+      logger.info( colorText(`Object Updated: ${req.params.id}`));
+        
+      res.json(result);
+  }catch(error){
+      res.status(500).send(`There was an error updating object options: ${error}`);
+  }
+}
+
+exports.updateOptionsByName = async (req, res) => {
+    // Update a List
+    logger.debug( colorText(`Updating Object Options for : ${JSON.stringify(req.body)}`) );
+
+    options = {
+        filters: req.body.filters,
+        attachments: req.body.attachments
+    };
+
+    try{
+      // Get object
+      logger.debug( colorText("Update object options") );
+
+      const result = await objectsService.updateOptionsByName(options, req.params.objectName, req.params.listName, req.user.user_id );
       logger.info( colorText(`Object Updated: ${req.params.id}`));
         
       res.json(result);

@@ -290,6 +290,46 @@ router.put('/updateOptions/:id' , objectController.updateOptions );
 
 /**
  * @swagger
+ * /api/objects/updateOptionsByName/{objectName}/{listName}:
+ *  put:
+ *      summary: Updates Object
+ *      security:
+ *          - bearerAuth: []
+ *      tags: [Objects]
+ *      parameters:
+ *          -   in: path
+ *              name: objectName
+ *              schema:
+ *                  type: string
+ *              required: true
+ *              description: Object name
+ *          -   in: path
+ *              name: listName
+ *              schema:
+ *                  type: string
+ *              required: true
+ *              description: List name
+ *      requestBody:
+ *          required: true
+ *          content: 
+ *              application/json:
+ *                  schema:
+ *                      $ref: '#/components/schemas/objectToUpdateObjects'
+ *      responses:
+ *          200:
+ *              description: Updated object if operation was succesful
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/object'
+ *          404:
+ *              description: Object not found
+ *                                
+ */
+ router.put('/updateOptionsByName/:objectName/:listName' , objectController.updateOptionsByName );
+
+/**
+ * @swagger
  * /api/objects/removeOptions/{id}:
  *  delete:
  *      summary: Updates Object
