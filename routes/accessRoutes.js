@@ -26,7 +26,7 @@ const usersController = require('../controllers/userController');
  *                              $ref: '#/components/schemas/user'
  *                                
  */
-router.post('/create', usersController.createUser );
+router.post('/create', usersController.create );
 
 /**
  * @swagger

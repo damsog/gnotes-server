@@ -13,7 +13,7 @@ const userService = require('../services/userService');
 const logger = require('../utils/logger');
 const colorText = require('../utils/colortext');
 
-exports.createUser = async (req, res) => {
+exports.create = async (req, res) => {
     // Create a new user
     logger.debug( colorText(`Creating new user with options: ${req.body}`) );
 
@@ -36,7 +36,7 @@ exports.createUser = async (req, res) => {
     }
 }
 
-exports.getAllUsers = async (req, res) => {
+exports.getAll = async (req, res) => {
     try{
         // Get user from users service
         logger.debug( colorText("Getting all users") );
@@ -50,7 +50,7 @@ exports.getAllUsers = async (req, res) => {
     }
 }
 
-exports.getUserById = async (req, res) => {
+exports.getById = async (req, res) => {
     try{
         // Get user
         logger.debug( colorText(`Getting user by id ${req.params.id}`) );
@@ -64,7 +64,7 @@ exports.getUserById = async (req, res) => {
     }
 }
 
-exports.getUserByUsername = async (req, res) => {
+exports.getByUsername = async (req, res) => {
     try{
         // Get user
         logger.debug( colorText(`Getting user by username ${req.params.username}`) );
@@ -78,7 +78,7 @@ exports.getUserByUsername = async (req, res) => {
     }
 }
 
-exports.getUserByEmail = async (req, res) => {
+exports.getByEmail = async (req, res) => {
     try{
         // Get user
         logger.debug( colorText(`Getting user by Email ${req.params.email}`) );
@@ -92,7 +92,7 @@ exports.getUserByEmail = async (req, res) => {
     }
 }
 
-exports.updateUser = async (req, res) => {
+exports.update = async (req, res) => {
     // Update a User
     logger.debug( colorText(`Updating a user with options: ${req.body}`) );
 
@@ -117,7 +117,7 @@ exports.updateUser = async (req, res) => {
   }
 }
 
-exports.deleteUser = async (req, res) => {
+exports.delete = async (req, res) => {
     try{
         // Get user
         logger.debug( colorText(`Deleting user by id ${req.params.id}`) );

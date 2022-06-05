@@ -4,7 +4,7 @@ const usersController = require('../controllers/userController');
 
 /**
  * @swagger
- * /api/users/getAllUsers:
+ * /api/users/getAll:
  *  get:
  *      summary: Return all users
  *      security:
@@ -21,11 +21,11 @@ const usersController = require('../controllers/userController');
  *                              $ref: '#/components/schemas/user'
  *                                
  */
-router.get('/getAllUsers', usersController.getAllUsers );
+router.get('/getAll', usersController.getAll );
 
 /**
  * @swagger
- * /api/users/getUserById/{id}:
+ * /api/users/getById/{id}:
  *  get:
  *      summary: Return user by id
  *      security:
@@ -49,11 +49,11 @@ router.get('/getAllUsers', usersController.getAllUsers );
  *              description: User not found
  *                                
  */
-router.get('/getUserById/:id', usersController.getUserById );
+router.get('/getById/:id', usersController.getById );
 
 /**
  * @swagger
- * /api/users/getUserByUsername/{username}:
+ * /api/users/getByUsername/{username}:
  *  get:
  *      summary: Return user by username
  *      security:
@@ -77,11 +77,11 @@ router.get('/getUserById/:id', usersController.getUserById );
  *              description: User not found
  *                                
  */
-router.get('/getUserByUsername/:username', usersController.getUserByUsername );
+router.get('/getByUsername/:username', usersController.getByUsername );
 
 /**
  * @swagger
- * /api/users/getUserByEmail/{email}:
+ * /api/users/getByEmail/{email}:
  *  get:
  *      summary: Return user by email
  *      security:
@@ -105,11 +105,11 @@ router.get('/getUserByUsername/:username', usersController.getUserByUsername );
  *              description: User not found
  *                                
  */
-router.get('/getUserByEmail/:email', usersController.getUserByEmail );
+router.get('/getByEmail/:email', usersController.getByEmail );
 
 /**
  * @swagger
- * /api/users/updateUser/{id}:
+ * /api/users/update/{id}:
  *  put:
  *      summary: Updates user
  *      security:
@@ -139,11 +139,11 @@ router.get('/getUserByEmail/:email', usersController.getUserByEmail );
  *              description: User not found
  *                                
  */
-router.put('/updateUser/:id', usersController.updateUser );
+router.put('/update/:id', usersController.update );
 
 /**
  * @swagger
- * /api/users/deleteUser/{id}:
+ * /api/users/delete/{id}:
  *  delete:
  *      summary: Deletes a user by id
  *      security:
@@ -167,7 +167,7 @@ router.put('/updateUser/:id', usersController.updateUser );
  *              description: User not found
  *                                
  */
-router.delete('/deleteUser/:id', usersController.deleteUser );
+router.delete('/delete/:id', usersController.delete );
 
 /**
  * @swagger
