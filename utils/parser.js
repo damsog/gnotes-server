@@ -218,3 +218,23 @@ exports.removeOptionsJson = (i_json, s_json) => {
 
     return updatedJson;
 }
+
+exports.createJsonQuery = (json) => {
+    let result_json = [];
+    
+    for(const [key,value] of Object.entries(json)) {
+        let item = {};
+        let new_key = `filters.${key}`;
+        if(typeof value === 'string') {
+            item[new_key] = value;
+        }else{
+            if(!(value.length > 0)) continue;
+
+            item[new_key] = {"$in":value};
+        }
+
+        result_json.push(item);
+    }
+
+    return result_json;
+}

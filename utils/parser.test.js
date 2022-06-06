@@ -75,3 +75,28 @@ for(const [inJson,result] of Object.entries(removeOptionsJson)) {
         expect(parser.removeOptionsJson( JSON.parse(inJson), existingFilters2 )).toStrictEqual(result);
     });
 }
+
+//===================================================================================================================================================
+let method5 = "removeOptionsJson";
+let jsonQuery = {
+    '{"score": "8.5","others": []}':[ 
+        {"filters.score":"8.5"}
+    ],
+    '{"genres": ["action"],"score": "8.5","others": ["watched","relevant"] }':[ 
+        {"filters.genres": {$in:["action"]} }, 
+        {"filters.score":"8.5"}, 
+        {"filters.others": {$in:["watched","relevant"]} }
+    ],
+    '{"genres": ["action","comedy"],"score": "8.5","others": ["watched","relevant"] }':[ 
+        {"filters.genres": {$in:["action","comedy"],} }, 
+        {"filters.score":"8.5"}, 
+        {"filters.others": {$in:["watched","relevant"]} }
+    ]
+
+};
+
+for(const [inJson,result] of Object.entries(jsonQuery)) {
+    test(`${method4} test : ${inJson} `, () => {
+        expect(parser.createJsonQuery( JSON.parse(inJson) )).toStrictEqual(result);
+    });
+}
