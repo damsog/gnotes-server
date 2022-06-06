@@ -112,9 +112,9 @@ exports.getByFilters = async (req, res) => {
         // Get object from objects service
         logger.debug( colorText("Getting all objects for a List given filter options") );
 
-        const objects = {"objects":"some objects"};
+        const result = await objectsService.getByFilters(req.body.filters, req.params.listName, req.user.user_id);
 
-        res.json(objects);
+        res.json(result);
     }catch(error){
         res.status(500).send(`There was an error getting object information: ${error}`);
     }

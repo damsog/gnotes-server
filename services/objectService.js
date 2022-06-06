@@ -225,17 +225,55 @@ exports.getAllByListName = async (name, userId) => {
     }
 }
 
-exports.getAllByFilters = async (options) => {
-    const operation = `Query Objects with options ${options}`;
+exports.getByFilters = async (filters, listName, userId) => {
+    const operation = `Query Objects with options ${filters}`;
     logger.debug( colorText(`${operation}`) );
     
     var result = resultStructure(operation);
 
     try{
-        // Get object from objects service
-        logger.debug( colorText("Getting all objects for a List given filter options") );
+        let parserd_filters = parser.optionsParser(filters);
 
-        const objects = "nothing"
+        let parsed_query_options = parser.createJsonQuery(parserd_filters);
+
+        // Get object
+        logger.debug( colorText(`Getting object on list ${listName} with query ${JSON.stringify(parsed_query_options)}`) );
+
+        // Queries for the named object on the named list
+        const query = await User.aggregate([
+            { $match:{"_id": ObjectId(userId) } },
+            { $lookup: { 
+                from: "lists", 
+                localField: "lists", 
+                foreignField: "_id", 
+                as: "lists",
+                pipeline: [ 
+                    { $match:{"name":listName} },
+                    { $lookup:{ 
+                        from:"objects",
+                        localField:"_id",
+                        foreignField:"listId",
+                        as:"objects",
+                        pipeline:[
+                            {$match: 
+                                {$and: parsed_query_options } 
+                            }
+                        ]
+                    }}                    
+                ]  
+            } }, 
+            { $project:{"lists.objects":1} } 
+        ]);
+
+        // If list doesn't exists for the user
+        if(query[0].lists.length < 1) { result.messsage = `The user doesn't have a list named ${listName}`; return result };
+
+        // If object doesn't exists for the list
+        if(query[0].lists[0].objects.length < 1) { result.messsage = `The list doesn't have an object named ${objectName}`; return result };
+
+        //
+
+        const objects = query[0].lists[0].objects;
 
         result.result = "success";
         result.message = "Objects retrieved";

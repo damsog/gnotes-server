@@ -131,20 +131,27 @@ router.get('/getByListName/:name' , objectController.getByListName );
 
 /**
  * @swagger
- * /api/objects/getByFilters:
- *  get:
+ * /api/objects/getByFilters/{listName}:
+ *  post:
  *      summary: Get Objects by filters
  *      tags: [Objects]
+ *      parameters:
+ *          -   in: path
+ *              name: listName
+ *              schema:
+ *                  type: string
+ *              required: true
+ *              description: List name
  *      requestBody:
  *          required: true
  *          content: 
  *              application/json:
  *                  schema:
- *                      filters:
- *                          type: object
- *                          properties:
- *                              thing:
- *                                  type: int
+ *                      type: object
+ *                      properties:
+ *                          filters:
+ *                              type: string
+ *                              description: Object Filters.
  *      responses:
  *          200:
  *              description: all objects for a list
@@ -156,7 +163,7 @@ router.get('/getByListName/:name' , objectController.getByListName );
  *              description: Object not found
  *                                
  */
-router.get('/getByFilters' , objectController.getByFilters );
+router.post('/getByFilters/:listName' , objectController.getByFilters );
 
 /**
  * @swagger
