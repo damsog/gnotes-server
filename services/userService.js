@@ -60,7 +60,7 @@ exports.validateUser = async (username, password) => {
         if (!user) {result.message = "Username doesnt exist"; return result}
 
         // Matching password
-        if( encryptorService.matchedPassword(password, user.password) ){
+        if( await encryptorService.matchedPassword(password, user.password) ){
             logger.debug( colorText(`${operation} Password matched`) );
 
             // Creating an access token for the user
