@@ -59,7 +59,7 @@ exports.getListByName = async (name, userId) => {
             { $project:{"lists":1} } 
         ]);
         logger.debug( colorText(`${operation} ${JSON.stringify(query[0].lists)}`) );
-        if(query[0].lists.length < 1) { result.messsage = `No list named ${name} found for user`; return result };
+        if(query[0].lists.length < 1) { result.message = `No list named ${name} found for user`; return result };
 
         const list = query[0].lists[0]
         result.result = "success";
@@ -158,7 +158,7 @@ exports.createList = async (options, userId) => {
             { $project:{"lists":1} } 
         ]);
         logger.debug( colorText(`${operation} ${JSON.stringify(query[0].lists)}`) );
-        if(query[0].lists.length > 0) { result.messsage = `The user already has a list named ${options.name}`; return result };
+        if(query[0].lists.length > 0) { result.message = `The user already has a list named ${options.name}`; return result };
 
         // If the list is new creates the list
         const newList = await List.create(options);

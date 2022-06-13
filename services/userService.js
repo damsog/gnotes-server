@@ -53,7 +53,7 @@ exports.validateUser = async (username, password) => {
     var result = resultStructure(operation);
 
     try{
-        if(!username || !password) { result.messsage = "Username and password must be provided"; return result };
+        if(!username || !password) { result.message = "Username and password must be provided"; return result };
 
         // Validates if user Exists
         const user = await User.findOne({username: username});

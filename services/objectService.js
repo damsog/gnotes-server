@@ -33,7 +33,7 @@ exports.createObject = async (options) => {
             { $match:{"lists._id": ObjectId(options.listId) } }
         ]);
         logger.debug( colorText(`Found on the DB: ${JSON.stringify(query)}`) );
-        if(query.length > 0) { result.messsage = `The object ${options.title} already exists on the list`; return result };
+        if(query.length > 0) { result.message = `The object ${options.title} already exists on the list`; return result };
 
         // TODO: Other Validations
         // Parsing the Filters
@@ -83,7 +83,7 @@ exports.createObjectByListName = async (options, userId) => {
             { $project:{"lists":1} } 
         ]);
         logger.debug( colorText(`Query list ${options.listName} result ${JSON.stringify(queryList)}`) );
-        if(queryList[0].lists.length < 1) { result.messsage = `No list named ${options.listName} found for user`; return result };
+        if(queryList[0].lists.length < 1) { result.message = `No list named ${options.listName} found for user`; return result };
         
         // If the list exists use its id
         logger.debug( colorText(`Found list ${options.listName} with id ${JSON.stringify(queryList[0].lists[0])}`) );
@@ -102,7 +102,7 @@ exports.createObjectByListName = async (options, userId) => {
             { $match:{"lists._id": ObjectId(options.listId) } }
         ]);
         logger.debug( colorText(`Found on the DB: ${JSON.stringify(query)}`) );
-        if(query.length > 0) { result.messsage = `The object ${options.title} already exists on the list`; return result };
+        if(query.length > 0) { result.message = `The object ${options.title} already exists on the list`; return result };
 
         // TODO: Other Validations
         // Parsing the Filters
@@ -206,7 +206,7 @@ exports.getAllByListName = async (name, userId) => {
         ]);
 
         // If list exists for the user, queiry all its objects
-        if(query[0].lists.length < 1) { result.messsage = `The user doesn't have a list named ${name}`; return result };
+        if(query[0].lists.length < 1) { result.message = `The user doesn't have a list named ${name}`; return result };
         logger.debug( colorText(`Named list found ${JSON.stringify(query[0].lists[0])}`) );
         
         const objects = await ObjectM.find({"listId": ObjectId(query[0].lists[0]._id) });
@@ -266,10 +266,10 @@ exports.getByFilters = async (filters, listName, userId) => {
         ]);
 
         // If list doesn't exists for the user
-        if(query[0].lists.length < 1) { result.messsage = `The user doesn't have a list named ${listName}`; return result };
+        if(query[0].lists.length < 1) { result.message = `The user doesn't have a list named ${listName}`; return result };
 
         // If object doesn't exists for the list
-        if(query[0].lists[0].objects.length < 1) { result.messsage = `The list doesn't have an object named ${objectName}`; return result };
+        if(query[0].lists[0].objects.length < 1) { result.message = `The list doesn't have an object named ${objectName}`; return result };
 
         //
 
@@ -350,10 +350,10 @@ exports.getObjectByName = async (objectName, listName, userId) => {
         ]);
 
         // If list doesn't exists for the user
-        if(query[0].lists.length < 1) { result.messsage = `The user doesn't have a list named ${listName}`; return result };
+        if(query[0].lists.length < 1) { result.message = `The user doesn't have a list named ${listName}`; return result };
 
         // If object doesn't exists for the list
-        if(query[0].lists[0].objects.length < 1) { result.messsage = `The list doesn't have an object named ${objectName}`; return result };
+        if(query[0].lists[0].objects.length < 1) { result.message = `The list doesn't have an object named ${objectName}`; return result };
         
         logger.debug( colorText(`Named object found ${JSON.stringify(query[0].lists[0].objects[0])}`) );
 
@@ -447,10 +447,10 @@ exports.updateByName = async (options, objectName, listName, userId) => {
         ]);
 
         // If list doesn't exists for the user
-        if(query[0].lists.length < 1) { result.messsage = `The user doesn't have a list named ${listName}`; return result };
+        if(query[0].lists.length < 1) { result.message = `The user doesn't have a list named ${listName}`; return result };
 
         // If object doesn't exists for the list
-        if(query[0].lists[0].objects.length < 1) { result.messsage = `The list doesn't have an object named ${objectName}`; return result };
+        if(query[0].lists[0].objects.length < 1) { result.message = `The list doesn't have an object named ${objectName}`; return result };
 
         let resultQuery = await this.updateObject(options, query[0].lists[0].objects[0]._id);
 
@@ -478,7 +478,7 @@ exports.updateObjectOptions = async (options, id) => {
         // Getting object for Id
         const object = await ObjectM.findById(id);
 
-        if(options===undefined) { result.messsage = `Object not found`; return result };
+        if(options===undefined) { result.message = `Object not found`; return result };
         
         if(options.filters!==undefined){
             // Parsing the Filters
@@ -551,10 +551,10 @@ exports.updateOptionsByName = async (options, objectName, listName, userId) => {
         ]);
 
         // If list doesn't exists for the user
-        if(query[0].lists.length < 1) { result.messsage = `The user doesn't have a list named ${listName}`; return result };
+        if(query[0].lists.length < 1) { result.message = `The user doesn't have a list named ${listName}`; return result };
 
         // If object doesn't exists for the list
-        if(query[0].lists[0].objects.length < 1) { result.messsage = `The list doesn't have an object named ${objectName}`; return result };
+        if(query[0].lists[0].objects.length < 1) { result.message = `The list doesn't have an object named ${objectName}`; return result };
         
         let resultQuery = await this.updateObjectOptions(options, query[0].lists[0].objects[0]._id);
 
@@ -583,7 +583,7 @@ exports.removeObjectOptions = async (options, id) => {
         // Getting object for Id
         const object = await ObjectM.findById(id);
 
-        if(options===undefined) { result.messsage = `Object not found`; return result };
+        if(options===undefined) { result.message = `Object not found`; return result };
         
         if(options.filters!==undefined){
             // Parsing the Filters
@@ -656,10 +656,10 @@ exports.removeOptionsByName = async (options, objectName, listName, userId) => {
         ]);
 
         // If list doesn't exists for the user
-        if(query[0].lists.length < 1) { result.messsage = `The user doesn't have a list named ${listName}`; return result };
+        if(query[0].lists.length < 1) { result.message = `The user doesn't have a list named ${listName}`; return result };
 
         // If object doesn't exists for the list
-        if(query[0].lists[0].objects.length < 1) { result.messsage = `The list doesn't have an object named ${objectName}`; return result };
+        if(query[0].lists[0].objects.length < 1) { result.message = `The list doesn't have an object named ${objectName}`; return result };
         
         let resultQuery = await this.removeObjectOptions(options, query[0].lists[0].objects[0]._id);
 
@@ -741,10 +741,10 @@ exports.deleteByName = async (objectName, listName, userId) => {
         ]);
 
         // If list doesn't exists for the user
-        if(query[0].lists.length < 1) { result.messsage = `The user doesn't have a list named ${listName}`; return result };
+        if(query[0].lists.length < 1) { result.message = `The user doesn't have a list named ${listName}`; return result };
 
         // If object doesn't exists for the list
-        if(query[0].lists[0].objects.length < 1) { result.messsage = `The list doesn't have an object named ${objectName}`; return result };
+        if(query[0].lists[0].objects.length < 1) { result.message = `The list doesn't have an object named ${objectName}`; return result };
 
         let resultQuery = await this.deleteObject(query[0].lists[0].objects[0]._id);
 
