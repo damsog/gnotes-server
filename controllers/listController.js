@@ -113,6 +113,28 @@ exports.update = async (req, res) => {
   }
 }
 
+exports.updateByName = async (req, res) => {
+    // Update a List
+    logger.debug( colorText(`Updating a List with options: ${req.body}`) );
+
+    options = {
+            name: req.body.name,
+            description: req.body.description
+    };
+
+    try{
+      // Get list
+      logger.debug( colorText("Update list information") );
+
+      const result = await listsService.updateByName(options, req.params.name, req.user.user_id);
+      logger.info( colorText(`List Updated: ${req.params.name}`));
+        
+      res.json(result);
+  }catch(error){
+      res.status(500).send(`There was an error updating list information: ${error}`);
+  }
+}
+
 exports.delete = async (req, res) => {
     try{
       // Deleting list

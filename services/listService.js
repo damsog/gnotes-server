@@ -213,6 +213,46 @@ exports.updateList = async (options, id) => {
     }
 }
 
+exports.updateByName = async (options, name, userId) => {
+    const operation = `Update List ${name}`;
+    logger.debug( colorText(`${operation}`) );
+    
+    var result = resultStructure(operation);
+
+    try {
+        // Queries for the named list
+        const query = await User.aggregate([
+            { $match:{"_id": ObjectId(userId) } },
+            { $lookup: { 
+                from: "lists", 
+                localField: "lists", 
+                foreignField: "_id", 
+                as: "lists",
+                pipeline: [{ 
+                    $match:{"name":name} 
+                }]  
+            } }, 
+            { $project:{"lists":1} } 
+        ]);
+        logger.debug( colorText(`${operation} ${JSON.stringify(query[0].lists)}`) );
+        if(query[0].lists.length < 1) { result.message = `No list named ${name} found for user`; return result };
+
+        const resultQuery = await this.updateList(options, query[0].lists[0]._id) 
+
+        result.result = resultQuery.result;
+        result.message = resultQuery.message;
+        result.data = resultQuery.data;
+
+        logger.debug( colorText(`${operation} ${JSON.stringify(result)}`) );
+        return result;
+    }catch(error) {
+        result.result = "failed";
+        result.message = error.message;
+
+        logger.debug( colorText(`${operation} ${JSON.stringify(result)}`) );
+    }
+}
+
 exports.deleteList = async (id) => {
     const operation = `Delete List ${id}`;
     logger.debug( colorText(`${operation}`) );

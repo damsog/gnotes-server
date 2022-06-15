@@ -169,6 +169,40 @@ router.put('/update/:id', listController.update);
 
 /**
  * @swagger
+ * /api/lists/updateByName/{name}:
+ *  put:
+ *      summary: Updates list
+ *      security:
+ *          - bearerAuth: []
+ *      tags: [Lists]
+ *      parameters:
+ *          -   in: path
+ *              name: name
+ *              schema:
+ *                  type: string
+ *              required: true
+ *              description: List id
+ *      requestBody:
+ *          required: true
+ *          content: 
+ *              application/json:
+ *                  schema:
+ *                      $ref: '#/components/schemas/listToUpdate'
+ *      responses:
+ *          200:
+ *              description: If operation was succesful
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/list'
+ *          404:
+ *              description: User not found
+ *                                
+ */
+ router.put('/updateByName/:name', listController.updateByName);
+
+/**
+ * @swagger
  * /api/lists/delete/{id}:
  *  delete:
  *      summary: Deletes a list by id
