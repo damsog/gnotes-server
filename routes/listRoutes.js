@@ -181,7 +181,7 @@ router.put('/update/:id', listController.update);
  *              schema:
  *                  type: string
  *              required: true
- *              description: List id
+ *              description: List Name
  *      requestBody:
  *          required: true
  *          content: 
@@ -228,6 +228,34 @@ router.put('/update/:id', listController.update);
  *                                
  */
 router.delete('/delete/:id', listController.delete);
+
+/**
+ * @swagger
+ * /api/lists/deleteByName/{name}:
+ *  delete:
+ *      summary: Deletes a list by name
+ *      security:
+ *          - bearerAuth: []
+ *      tags: [Lists]
+ *      parameters:
+ *          -   in: path
+ *              name: name
+ *              schema:
+ *                  type: string
+ *              required: true
+ *              description: List Name
+ *      responses:
+ *          200:
+ *              description: If operation was succesful
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: string
+ *          404:
+ *              description: User not found
+ *                                
+ */
+ router.delete('/deleteByName/:name', listController.deleteByName);
 
  /**
   * @swagger

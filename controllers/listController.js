@@ -148,3 +148,17 @@ exports.delete = async (req, res) => {
       res.status(500).send(`There was an error deleting list: ${error}`);
   }
 }
+
+exports.deleteByName = async (req, res) => {
+    try{
+      // Deleting list
+      logger.debug( colorText("Deleting list") );
+
+      const result = await listsService.deleteByName(req.params.name, req.user.user_id);
+      logger.info( colorText(`List Deleted: ${req.params.name}`));
+        
+      res.json(result);
+  }catch(error){
+      res.status(500).send(`There was an error deleting list: ${error}`);
+  }
+}
