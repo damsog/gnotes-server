@@ -305,7 +305,7 @@ exports.deleteByName = async (name, userId) => {
         logger.debug( colorText(`${operation} ${JSON.stringify(query[0].lists)}`) );
         if(query[0].lists.length < 1) { result.message = `No list named ${name} found for user`; return result };
 
-        const resultQuery = this.deleteList(query[0].lists[0]._id)
+        const resultQuery = await this.deleteList(query[0].lists[0]._id)
 
         result.result = resultQuery.result;
         result.message = resultQuery.message;
