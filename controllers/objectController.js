@@ -277,7 +277,7 @@ exports.removeOptionsByName = async (req, res) => {
       // Get object
       logger.debug( colorText("Remove object options") );
 
-      const result = await objectsService.removeObjectOptionsByName( options, req.params.objectName, req.params.listName, req.user.user_id );
+      const result = await objectsService.removeOptionsByName( options, req.params.objectName, req.params.listName, req.user.user_id );
       logger.info( colorText(`Object Updated: ${req.params.id}`));
         
       res.json(result);
