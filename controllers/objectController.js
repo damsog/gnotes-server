@@ -226,7 +226,8 @@ exports.updateOptionsByName = async (req, res) => {
 
     options = {
         filters: req.body.filters,
-        attachments: req.body.attachments
+        attachments: req.body.attachments,
+        information: req.body.information
     };
 
     try{

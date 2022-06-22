@@ -42,6 +42,9 @@ exports.createObject = async (options) => {
         // Parsing the Attachments
         options.attachments = parser.optionsParser(options.attachments, false);
 
+        // Parsing Information
+        options.information = parser.optionsParser(options.information, false);
+
         // Create a new object
         logger.debug( colorText("Creating new object") );
 
@@ -110,6 +113,9 @@ exports.createObjectByListName = async (options, userId) => {
 
         // Parsing the Attachments
         options.attachments = parser.optionsParser(options.attachments, false);
+
+        // Parsing the Information
+        options.information = parser.optionsParser(options.information, false);
 
         // Create a new object
         logger.debug( colorText("Creating new object") );
@@ -389,6 +395,7 @@ exports.updateObject = async (options, id) => {
                 // Parse filters and attachments
                 if(key==="filters"){ object[key] = parser.optionsParser(value); continue };
                 if(key==="attachments"){ object[key] = parser.optionsParser(value, false); continue };
+                if(key==="information"){ object[key] = parser.optionsParser(value, false); continue };
 
                 object[key] = value;
             }
@@ -500,6 +507,16 @@ exports.updateObjectOptions = async (options, id) => {
             logger.debug( colorText(`Updated Attachments ${JSON.stringify(object.attachments)}`) );
         }
 
+        if(options.information!==undefined){
+            // Parsing the Filters
+            options.information = parser.optionsParser(options.information, false);
+            logger.debug( colorText(`Incomming Attachments ${JSON.stringify(options.information)} <==> Saved Attachments ${JSON.stringify(object.information)}`) );
+
+            // Update the Json object
+            object.information = parser.updateOptionsJson(options.information, object.information);
+            logger.debug( colorText(`Updated Attachments ${JSON.stringify(object.information)}`) );
+        }
+
         await object.save();
 
         result.result = "success";
@@ -602,6 +619,16 @@ exports.removeObjectOptions = async (options, id) => {
 
             // Update the Json object
             object.attachments = parser.removeOptionsJson(options.attachments, object.attachments);
+            logger.debug( colorText(`Updated Attachments ${JSON.stringify(object.attachments)}`) );
+        }
+
+        if(options.information!==undefined){
+            // Parsing the Filters
+            options.information = parser.optionsParser(options.information, false);
+            logger.debug( colorText(`Attachments to Remove ${JSON.stringify(options.information)} <==> Saved Attachments ${JSON.stringify(object.information)}`) );
+
+            // Update the Json object
+            object.information = parser.removeOptionsJson(options.information, object.information);
             logger.debug( colorText(`Updated Attachments ${JSON.stringify(object.attachments)}`) );
         }
 
