@@ -249,7 +249,8 @@ exports.removeOptions = async (req, res) => {
 
     options = {
         filters: req.body.filters,
-        attachments: req.body.attachments
+        attachments: req.body.attachments,
+        information: req.body.information
     };
 
     try{
@@ -271,7 +272,8 @@ exports.removeOptionsByName = async (req, res) => {
 
     options = {
         filters: req.body.filters,
-        attachments: req.body.attachments
+        attachments: req.body.attachments,
+        information: req.body.information
     };
 
     try{
