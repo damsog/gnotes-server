@@ -6,7 +6,7 @@ const objectsSchema = new mongoose.Schema({
         required : true
     },
     description : String,
-    information : String,
+    information : {},
     filters: {},
     attachments: {},
     created_at: {

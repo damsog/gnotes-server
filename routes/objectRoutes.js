@@ -648,6 +648,9 @@ router.delete('/delete/:id' , objectController.delete );
   *              attachments:
   *                  type: string
   *                  description: Object attachments.
+  *              information:
+  *                  type: string
+  *                  description: Object information.
 */
 
 module.exports = router;
