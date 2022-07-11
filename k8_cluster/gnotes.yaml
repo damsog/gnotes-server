@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: gnotes-deployment
+  labels: 
+    app: gnotes
+spec:
+  replicas: 1
+  selector:
+    matchLabels: 
+      app: gnotes
+  template:
+    metadata:
+      labels:
+        app: gnotes
+    spec:
+      containers:
+      - name: gnotes
+        image: gnotes_app:latest
+        ports: 
+        - containerPort: 5000
+        env:
+        - name: DATABASE_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: mongo-config
+              key: mongo-url
+        - name: DATABASE_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: mongo-config
+              key: database-name
+---
+apiVersion: v1
+kind: Service
+metadata: 
+  name: gnotes-service
+spec:
+  type: NodePort
+  selector:
+    app: gnotes
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000
+      nodePort: 30100
