@@ -16,10 +16,15 @@ spec:
     spec:
       containers:
       - name: gnotes
-        image: gnotes_app:latest
+        image: laguzs/gnotes:1.0
         ports: 
         - containerPort: 5000
         env:
+        - name: PORT
+          valueFrom:
+            configMapKeyRef:
+              name: mongo-config
+              key: server-port       
         - name: DATABASE_HOST
           valueFrom:
             configMapKeyRef:
@@ -29,7 +34,16 @@ spec:
           valueFrom:
             configMapKeyRef:
               name: mongo-config
-              key: database-name
+              key: database-name              
+        - name: TOKEN_KEY
+          valueFrom:
+            configMapKeyRef:
+              name: mongo-config
+              key: token-key
+        - name: LOGGER_LEVEL
+          value: debug
+        - name: NODE_ENV
+          value: development            
 ---
 apiVersion: v1
 kind: Service
@@ -41,6 +55,6 @@ spec:
     app: gnotes
   ports:
     - protocol: TCP
-      port: 3000
-      targetPort: 3000
+      port: 5000
+      targetPort: 5000
       nodePort: 30100

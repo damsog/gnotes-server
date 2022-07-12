@@ -3,5 +3,9 @@ kind: ConfigMap
 metadata:
   name: mongo-config
 data:
+  server-port: '5000'
+  logger-level: debug
+  node-env: development
   mongo-url: mongo-service
   database-name: gnotesdb
+  token-key: myserverkeytest
