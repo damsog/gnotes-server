@@ -85,3 +85,31 @@ services:
     ...
 ```
 
+### Deploy Service
+
+To manage the application on linux you can copy the file gnotes.service.BASE as gnotes.service and edit it specifying the route to the docker-compose.yml
+```sh
+...
+[Service]
+WorkingDirectory=</path/to/server/files>
+...
+```
+
+after this move the gnotes.service to the systemd folder: 
+```sh
+sudo mv gnotes.service /etc/systemd/system/
+```
+With this you can start and stop the server with systemctl, and check the output with journalctl
+start/stop
+```sh
+sudo systemctl start gnotes.service
+sudo systemctl stop gnotes.service
+```
+logs
+```sh
+journalctl -u gnotes.service -f
+```
+To Enable the service to start at boot
+```sh
+sudo systemctl enable gnotes.service
+```
