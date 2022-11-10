@@ -1,11 +1,14 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: mongo-config
+  name: server-config
 data:
   server-port: '5000'
+  server-port-swagger: '30100'
+  server-ip: '192.168.49.2'
   logger-level: debug
   node-env: development
-  mongo-url: mongo-service
+  database-host: '192.168.1.1'
+  database-port: '27017'
   database-name: gnotesdb
   token-key: myserverkeytest

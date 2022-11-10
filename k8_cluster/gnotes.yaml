@@ -16,34 +16,66 @@ spec:
     spec:
       containers:
       - name: gnotes
-        image: laguzs/gnotes:1.0
+        image: laguzs/gnotes:1.3
         ports: 
         - containerPort: 5000
+        # Reading Env variables from Config map and Secret
         env:
         - name: PORT
           valueFrom:
             configMapKeyRef:
-              name: mongo-config
-              key: server-port       
+              name: server-config
+              key: server-port
+        - name: PORT_SWAGGER
+          valueFrom:
+            configMapKeyRef:
+              name: server-config
+              key: server-port-swagger
+        - name: SERVER
+          valueFrom:
+            configMapKeyRef:
+              name: server-config
+              key: server-ip       
         - name: DATABASE_HOST
           valueFrom:
             configMapKeyRef:
-              name: mongo-config
-              key: mongo-url
+              name: server-config
+              key: database-host
+        - name: DATABASE_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: server-config
+              key: database-port
         - name: DATABASE_NAME
           valueFrom:
             configMapKeyRef:
-              name: mongo-config
-              key: database-name              
+              name: server-config
+              key: database-name
+        - name: DATABASE_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: server-secret
+              key: database-username
+        - name: DATABASE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: server-secret
+              key: database-password
         - name: TOKEN_KEY
           valueFrom:
             configMapKeyRef:
-              name: mongo-config
+              name: server-config
               key: token-key
         - name: LOGGER_LEVEL
-          value: debug
+          valueFrom:
+            configMapKeyRef:
+              name: server-config
+              key: logger-level
         - name: NODE_ENV
-          value: development            
+          valueFrom:
+            configMapKeyRef:
+              name: server-config
+              key: node-env          
 ---
 apiVersion: v1
 kind: Service
