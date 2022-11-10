@@ -40,17 +40,19 @@ const authService = require('./services/authenticationService');
 *************************************************************************************************/
 
 // Swagger Documentation confifguration
+const APP_VERSION = "1.3";
 const swaggerOptions = {
     definition: {
         openapi: "3.0.0",
         info: {
-            title: 'Platform API',
+            title: `Platform API V ${APP_VERSION}`,
             version: "1.0.0",
             description: 'Videoanalytics platform API'
         },
         servers: [
             {
-                url: `http://localhost:${process.env.PORT}`
+                url: `http://localhost:${process.env.PORT_SWAGGER}`,
+                url: `http://${process.env.SERVER}:${process.env.PORT_SWAGGER}`,
            }
         ],
         components: {
@@ -119,6 +121,7 @@ app.listen(app.get('port'), ()=>{
             figlet.textSync("NOTES SERVER", figletParamsSubtitle)
         )
     );
+    logger.info( colorText(`APP V ${APP_VERSION}`) );
     logger.info( colorText(`SERVER CONFIGURATION INFO: Server Running on: ${process.env.SERVER}`) );
     logger.info( colorText(`SERVER CONFIGURATION INFO: Server Running on Port: ${process.env.PORT}`) );
 });
