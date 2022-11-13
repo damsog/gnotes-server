@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: server-config
+data:
+  server-port: <internal-server-port>
+  server-port-swagger: <public-server-port>
+  server-ip: <public-server-ip>
+  logger-level: <debug/info>
+  node-env: <development/production>
+  database-host: <database-host>
+  database-port: <database-port>
+  database-name: <database-name>
+  token-key: <secret-key>
