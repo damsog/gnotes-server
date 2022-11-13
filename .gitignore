@@ -1,2 +1,4 @@
 node_modules/
 .env
+k8_cluster/server-config.yaml
+k8_cluster/server-secret.yaml
